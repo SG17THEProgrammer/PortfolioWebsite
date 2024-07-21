@@ -147,3 +147,17 @@ document.querySelector(".footContact").addEventListener("click", (e) => {
     contactFormSection.scrollIntoView({ behavior: "smooth" });
 });
 
+document.querySelector(".footContact").addEventListener("click", (e) => {
+    e.preventDefault();
+    contactFormSection.scrollIntoView({ behavior: "smooth" });
+});
+
+
+
+document.querySelector(".hamburger").addEventListener("click", (e) => {
+  e.preventDefault();
+  var menu = document.querySelector('.navigationMenu');
+  menu.classList.toggle('showMenu');
+});
+    
+
