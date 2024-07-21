@@ -152,8 +152,6 @@ document.querySelector(".footContact").addEventListener("click", (e) => {
     contactFormSection.scrollIntoView({ behavior: "smooth" });
 });
 
-
-
 document.querySelector(".hamburger").addEventListener("click", (e) => {
   e.preventDefault();
   var menu = document.querySelector('.navigationMenu');
