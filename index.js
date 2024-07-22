@@ -89,7 +89,7 @@ var swiper = new Swiper(".mySwiper", {
 
 
 
-const contactSection = document.querySelector(".form");
+const contactSection = document.querySelector("#contactForm");
 const aboutSection = document.querySelector("#aboutMe");
 
 
@@ -99,7 +99,6 @@ const experienceSection = document.querySelector("#experience");
 const achievementsSection = document.querySelector("#achievements");
 const contactFormSection = document.querySelector("#contactForm");
 
-const freelanceSection = document.querySelector(".form");
 
 document.querySelector(".btn").addEventListener("click", (e) => {
     e.preventDefault();
@@ -107,10 +106,6 @@ document.querySelector(".btn").addEventListener("click", (e) => {
 });
 
 
-document.querySelector(".btn").addEventListener("click", (e) => {
-    e.preventDefault();
-    freelanceSection.scrollIntoView({ behavior: "smooth" });
-});
 
 document.querySelector(".aboutme").addEventListener("click", (e) => {
     e.preventDefault();
@@ -159,3 +154,24 @@ document.querySelector(".hamburger").addEventListener("click", (e) => {
 });
     
 
+const footerElm = document.querySelector(".footer  ");
+const main = document.querySelector(".navBar    ");
+
+const scrollElement = document.createElement("div");
+scrollElement.classList.add("scrollTop-style");
+
+// I am adding the button element inside the div element
+// scrollElement.innerHTML = ` <i class="fa-solid fa-circle-up scroll-top icon1 " title="Go To Top"></i>`;
+// console.log(scrollElement)
+
+// add to the bottom of the page
+footerElm.after(scrollElement);
+
+// deleting the dom element
+const scrollTop = () => {
+  console.log(1)
+  console.log(main)
+    main.scrollIntoView({ behavior: "smooth" });
+};
+
+document.querySelector(".scroll-top").addEventListener("click", scrollTop);
