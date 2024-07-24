@@ -935,7 +935,7 @@ main {
 
   .video {
     width: 250px;
-    margin-top: 200%;
+    /* margin-top: 200%; */
   }
   .videoDiv{
     border: 1px solid red;
@@ -968,6 +968,7 @@ main {
     margin: 10px 10px;
     padding: 10px;
     margin-bottom: 100px;
+    width: 93%;
   }
 
   .expDiv {
@@ -980,6 +981,7 @@ main {
   }
 
   .video {
+    height: 100px;
     width: 200px;
   }
 
@@ -991,10 +993,10 @@ main {
     grid-template-columns: 1fr;
   }
 
-  .img2 {
-    width: 530px;
+  /* .img2 {
+    width: 500px;
     height: 240px;
-  }
+  } */
   .pro1{
     margin-bottom: 20px;
   }
@@ -1002,6 +1004,10 @@ main {
     /* border: 1px solid red; */
     width: 100%;
 
+  }
+  .videoDiv{
+    width: 100%;
+    margin-bottom: 10px;
   }
 }
 
@@ -1204,7 +1210,7 @@ width: 340px;
     width:40%;
   }
   .achDiv{
-    margin-left: 15px;
+    margin-left: -0.5px;
     width: 50%;
   }
   .videoDivAch{
@@ -1388,7 +1394,7 @@ width: 180px;
 
 }
 
-@media (max-width: 480px) {
+@media (max-width: 500px) {
   .freelance {
     margin-left: 5px;
     width: 100%;
@@ -1405,7 +1411,7 @@ width: 180px;
     font-size: 1.2rem;
   }
   .section-freelancer .overlay{
-    height: 210%;
+    height: 100%;
   }
 
 }
@@ -1692,7 +1698,9 @@ width: 180px;
   .scrollTop-style {
     right: 20px;
     bottom: 15px;
-    top: 1010%;
+    /* top: 1157%; */
+    top: 1023%;
+    bottom: 0;
 
   }
 }
