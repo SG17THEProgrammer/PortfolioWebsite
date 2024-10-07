@@ -190,7 +190,7 @@
         <div class='projectContainer'>
           <img src='./images/art.png' class="" style="transform: scale(1.4);"/>
           <div class='projectDescription'>
-            <h4>Art Gallery  <a href="https://whimsical-crisp-f0c94f.netlify.app/" target="_blank"><i class="fa-solid fa-paper-plane fa-lg btn1" style="color: #4fb1c9; " title="View Project" ></i></a></h4>
+            <h4>Art Gallery  <a href="https://creativeartgallery.netlify.app/" target="_blank"><i class="fa-solid fa-paper-plane fa-lg btn1" style="color: #4fb1c9; " title="View Project" ></i></a></h4>
             <h5>Tech Used :  MERN Stack</h5>
             <p>Step into a world of artistic brilliance with our Art Gallery app, where every swipe unveils a masterpiece and every detail tells a story. Immerse yourself in a curated collection of stunning artworks, all at your fingertips.</p>
           </div>
@@ -317,23 +317,28 @@
 <div id='contactForm'>
     <section class='contactForm' >
       <h2 style="margin-bottom: 5px;">Let's Connect!</h2>
-      <form style="height: fit-content;" class="form">
+      <form style="height: fit-content;" class="form" action="https://api.web3forms.com/submit" method="POST" id="submit">
+          <input type="hidden" name="access_key" value="e8fa7b2e-8a34-499e-b006-8bd583f75a46">
         <div class='formGroup'>
           <label for='name'>Enter Full Name</label><br />
-          <input type='text' id='name' placeholder='Full Name' required />
+          <input type='text' id='name' name="name" placeholder='Full Name' required />
         </div>
         <div class='formGroup'>
           <label for='email'>Email</label><br />
-          <input type='email' id='email' placeholder='Email' required/>
+          <input type='email' id='email' name="email" placeholder='Email' required/>
         </div>
+        <!-- <div class='formGroup'>
+          <label for='subject'>Subject</label><br />
+          <input placeholder="Write subject!" name="subject" id="subject" required></input>
+        </div> -->
         <div class='formGroup'>
           <label for='message'>Message</label><br />
-          <textarea placeholder="Send some message!" id="message" name="w3review" rows="4" cols="50" required></textarea>
+          <textarea placeholder="Send some message!" id="message" name="message" rows="4" cols="50" required></textarea>
         </div>
-        <button class='submitButton' id="submit" >Connect</button>
+        <button class='submitButton'  >Connect</button>
       </form>
     </section>
-  </div>
+  </div>  
 
     <!-- <section class="section1">Footer Example 4</section> -->
      <div class="footer">
@@ -410,7 +415,7 @@
 
   <script src="index.js" type="module"></script>
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-  
+  <script src="https://smtpjs.com/v3/smtp.js"></script>
 </body>
 
 </html>

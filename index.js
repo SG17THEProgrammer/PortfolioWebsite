@@ -20,18 +20,20 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-document.getElementById('submit').addEventListener('click', function(e) {
+document.getElementById('submit').addEventListener('submit', function(e) {
   e.preventDefault();
 
   const name = document.getElementById('name').value;
   const email = document.getElementById('email').value;
   const message = document.getElementById('message').value;
+  // const subject = document.getElementById('subject').value
+
 
   if (name === '') {
     alert('Please Enter your name');
     return;
   }
-  if (name.length<2) {
+  if (name.length<=2) {
     alert('Name should be of at least 3 characters');
     return;
   }
@@ -53,22 +55,53 @@ document.getElementById('submit').addEventListener('click', function(e) {
     alert('Message should be of at least 2 characters');
     return;
   }
+  // if (subject === '') {
+  //   alert('Please Enter the message');
+  //   return;
+  // }
 
-  const userRef = ref(db, 'users'); // Changed 'user' to 'users' for collection of users
-  const newUserRef = push(userRef);
+  // if (subject.length<=2) {
+  //   alert('Message should be of at least 2 characters');
+  //   return;
+  // }
 
-  set(newUserRef, {
+const userRef = ref(db, 'users'); 
+const newUserRef = push(userRef);
+
+set(newUserRef, {
     name: name,
     email: email,
     message: message
-  })
-  .then(() => {
-    alert('Message sent successfully');
-  })
-  .catch((error) => {
-    console.error('Error writing to Firebase Database', error);
-  });
+})
+// .then(() => {
+//     return sendEmail(name, email, message, subject);
+// })
+.then(() => {
+    console.log('You are connected successfully');
+})
+.catch((error) => {
+    console.error('Error occurred', error);
+    alert('Error in connecting.');
 });
+this.submit() // this is important to write !!
+window.location.reload();
+});
+
+
+//send mail when user fill contact form 
+// function sendEmail(name,email,message,subject){
+//   Email.send({
+//     Host : "smtp.gmail.com",
+//     Username : `${name}`,
+//     To : 'pqrx159@gmail.com',
+//     From : `${email}`,
+//     Subject : `${subject}`,
+//     Body : `${message}`
+// }).then(
+//   message => alert(message)
+// );
+
+// }
 
 
 
@@ -200,3 +233,6 @@ const scrollTop = () => {
 };
 
 document.querySelector(".scroll-top").addEventListener("click", scrollTop);
+
+
+
