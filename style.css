@@ -40,7 +40,7 @@ html{
 ::-webkit-scrollbar-thumb:hover {
   background: #555; 
 }
-/* Custom Scrollbar END */
+
 
 /* Styles for background */
 body::before{
@@ -205,7 +205,7 @@ main {
   height: 350px;
   object-fit: cover;
   object-position: center;
-  border-radius: 5px;
+  /* border-radius: 5px; */
 }
 
 .herosectionDetails {
@@ -858,6 +858,7 @@ main {
 }
 
 .img1 {
+  display: flex;
   box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
   height: fit-content;
 }
