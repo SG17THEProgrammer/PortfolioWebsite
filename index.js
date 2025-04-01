@@ -236,3 +236,13 @@ document.querySelector(".scroll-top").addEventListener("click", scrollTop);
 
 
 
+
+var typed = new Typed(".typing",{
+    strings:["Web Developer" , "Java Developer" , "MERN Stack Enthusiast" , "Sports Enthusiast","Problem Solver"],
+    typeSpeed:100,
+    BackSpeed:100,
+    loop:true,
+    // cursorChar:"_",
+    // fadeOut:true,
+    // fadeOutDelay:1000
+})

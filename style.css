@@ -91,6 +91,7 @@ main {
   font-weight: 500;
   padding: 1rem 1rem 2rem 1rem;
   overflow: auto;
+
 }
 
 /* main::-webkit-scrollbar{
@@ -196,28 +197,52 @@ main {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-evenly;
+  /* border: 1px solid red; */
 }
 
 .profileImage {
   width: 300px;
-  height: 350px;
+  height: 370px;
   object-fit: cover;
   object-position: center;
   /* border-radius: 5px; */
 }
 
 .herosectionDetails {
-  text-align: center;
-  height: 300px;
-  padding: 0 40px;
+  /* text-align: center; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+  /* padding: 0 40px; */
+  /* border: 1px solid black; */
   width: 70%;
+
 }
 
 .herosectionDetails > h1 {
   font-size: 50px;
-  margin: 10px;
+  margin: -10px 10px 10px 10px;
+}
+
+.buttonDiv{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center; 
+  /* border: 1px solid red; */
+  width: 100%;
+  padding-left: 20px;
+}
+
+.typing{
+  background: linear-gradient(to right, #6A11CB, #2575FC); 
+  background: linear-gradient(to right, #D100D1, #FF00FF, #04e6e6);
+
+  background-clip: text;
+  color: transparent;
 }
 
 /* Responsive adjustments */
@@ -1126,6 +1151,10 @@ main {
   padding: 10px;
 }
 
+#achievements{
+  margin-top: 100px;
+}
+
 .achDiv {
   margin: 0 auto;
   margin-bottom: 150px;
@@ -1664,10 +1693,10 @@ main {
 }
 
 .scrollTop-style {
-  position: fixed;
-  right: 17px;
-  top: 913%;
-  z-index: 5000;
+  position:fixed;
+  right: 15px;
+  z-index: 2;
+  margin-top: -50px;
 }
 
 .scroll-top {
