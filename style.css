@@ -634,6 +634,11 @@ main {
     width: 60%;
     
   }
+  .bio-progress-bar11::before {
+ 
+    width: 90%;
+    
+  }
 
 
 /* to create the rectangle box  */
@@ -699,6 +704,11 @@ main {
 .bio-progress-bar10 span {
 
   left: 51%;
+  
+}
+.bio-progress-bar11 span {
+
+  left: 81%;
   
 }
 
@@ -859,6 +869,12 @@ main {
 }
 
 .expDiv {
+  display: grid;
+  grid-template-columns: 5fr 1fr;
+}
+
+.expDiv1 {
+  margin: 50px 0 ;
   display: grid;
   grid-template-columns: 5fr 1fr;
 }
