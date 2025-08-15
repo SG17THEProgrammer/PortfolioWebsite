@@ -238,7 +238,7 @@ document.querySelector(".scroll-top").addEventListener("click", scrollTop);
 
 
 var typed = new Typed(".typing",{
-    strings:["Web Developer" , "Java Developer" , "MERN Stack Enthusiast" , "Sports Enthusiast","Problem Solver"],
+    strings:["Web Developer" , "Java Developer" , "MERN Stack Enthusiast" , "Site Relaibility Engineer","Incident Manager","Sports Enthusiast","Problem Solver"],
     typeSpeed:100,
     BackSpeed:100,
     loop:true,
