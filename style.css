@@ -526,6 +526,12 @@ main {
   margin-bottom: 30px;
 }
 
+.icons1{
+  height: 75px;
+  padding: 10px;
+  margin-bottom: 30px;
+}
+
 
 
 .skill{
@@ -639,6 +645,11 @@ main {
     width: 90%;
     
   }
+  .bio-progress-bar12::before {
+ 
+    width: 90%;
+    
+  }
 
 
 /* to create the rectangle box  */
@@ -707,6 +718,11 @@ main {
   
 }
 .bio-progress-bar11 span {
+
+  left: 81%;
+  
+}
+.bio-progress-bar12 span {
 
   left: 81%;
   
