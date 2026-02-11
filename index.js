@@ -1,90 +1,93 @@
 //firebase link 
-    //https://console.firebase.google.com/u/0/project/portfolio-website-58cdb/database/portfolio-website-58cdb-default-rtdb/data 
+//https://console.firebase.google.com/u/0/project/portfolio-website-58cdb/database/portfolio-website-58cdb-default-rtdb/data 
 
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
 
-import{ getDatabase ,ref,set,get,child,push } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
+import { getDatabase, ref, set, get, child, push } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA_3lYwtdxq8n7QsZv42aVXnG0a4yWMSWs",
-  authDomain: "portfolio-website-58cdb.firebaseapp.com",
-  projectId: "portfolio-website-58cdb",
-  storageBucket: "portfolio-website-58cdb.appspot.com",
-  messagingSenderId: "239479879240",
-  appId: "1:239479879240:web:23e224357f90c5153a4a7d",
-  measurementId: "G-VF7S8981ZS"
+    apiKey: "AIzaSyA_3lYwtdxq8n7QsZv42aVXnG0a4yWMSWs",
+    authDomain: "portfolio-website-58cdb.firebaseapp.com",
+    projectId: "portfolio-website-58cdb",
+    storageBucket: "portfolio-website-58cdb.appspot.com",
+    messagingSenderId: "239479879240",
+    appId: "1:239479879240:web:23e224357f90c5153a4a7d",
+    measurementId: "G-VF7S8981ZS"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-document.getElementById('submit').addEventListener('submit', function(e) {
-  e.preventDefault();
+document.getElementById('submit').addEventListener('submit', function (e) {
+    e.preventDefault();
 
-  const name = document.getElementById('name').value;
-  const email = document.getElementById('email').value;
-  const message = document.getElementById('message').value;
-  // const subject = document.getElementById('subject').value
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('message').value;
+    const subject = document.getElementById('subject').value
 
 
-  if (name === '') {
-    alert('Please Enter your name');
-    return;
-  }
-  if (name.length<=2) {
-    alert('Name should be of at least 3 characters');
-    return;
-  }
-  if (email === '') {
-    alert('Please Enter your email');
-    return;
-  }
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailPattern.test(email)) {
-            alert('Please Enter a valid email address');
-            return;
-        }
+    if (name === '') {
+        console.log('Please Enter your name');
+        return;
+    }
+    if (name.length <= 2) {
+        console.log('Name should be of at least 3 characters');
+        return;
+    }
+    if (email === '') {
+        console.log('Please Enter your email');
+        return;
+    }
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+        console.log('Please Enter a valid email address');
+        return;
+    }
 
-  if (message === '') {
-    alert('Please Enter the message');
-    return;
-  }
-  if (message.length<=2) {
-    alert('Message should be of at least 2 characters');
-    return;
-  }
-  // if (subject === '') {
-  //   alert('Please Enter the message');
-  //   return;
-  // }
+    if (message === '') {
+        console.log('Please Enter the message');
+        return;
+    }
+    if (message.length <= 2) {
+        console.log('Message should be of at least 2 characters');
+        return;
+    }
+    if (subject === '') {
+      console.log('Please Enter the message');
+      return;
+    }
 
-  // if (subject.length<=2) {
-  //   alert('Message should be of at least 2 characters');
-  //   return;
-  // }
+    if (subject.length<=2) {
+      console.log('Message should be of at least 2 characters');
+      return;
+    }
 
-const userRef = ref(db, 'users'); 
-const newUserRef = push(userRef);
+    const userRef = ref(db, 'users');
+    const newUserRef = push(userRef);
 
-set(newUserRef, {
-    name: name,
-    email: email,
-    message: message
-})
-// .then(() => {
-//     return sendEmail(name, email, message, subject);
-// })
-.then(() => {
-    console.log('You are connected successfully');
-})
-.catch((error) => {
-    console.error('Error occurred', error);
-    alert('Error in connecting.');
-});
-this.submit() // this is important to write !!
-window.location.reload();
+    set(newUserRef, {
+        name: name,
+        email: email,
+        message: message,
+        subject: subject
+    })
+        // .then(() => {
+        //     return sendEmail(name, email, message, subject);
+        // })
+        .then(() => {
+            console.log('You are connected successfully');
+            sendEmail(name, email, message, subject);
+           alert("Your message has been sent successfully!");
+        })
+        .catch((error) => {
+            console.error('Error occurred', error);
+            alert("Failed to send your message. Please try again.");
+        });
+    this.submit() // this is important to write !!
+    window.location.reload();
 });
 
 
@@ -98,9 +101,28 @@ window.location.reload();
 //     Subject : `${subject}`,
 //     Body : `${message}`
 // }).then(
-//   message => alert(message)
-// );
+    //   message => console.log(message)
+    // );
 
+function sendEmail(name, email, message, subject) {
+        const templateParams = {
+            name: name,
+            email: email,
+            subject: message,
+            message: subject,
+        };
+        emailjs
+            .send("service_m04mwz6", "template_h8vamse", templateParams)
+            .then(() => {
+                console.log("Email sent successfully!");
+
+            })
+            .catch((error) => {
+                console.log("Error sending email:", error);
+                console.log("Failed to send email. Please try again.");
+            });
+    }
+    
 // }
 
 
@@ -206,11 +228,11 @@ document.querySelector(".footContact").addEventListener("click", (e) => {
 });
 
 document.querySelector(".hamburger").addEventListener("click", (e) => {
-  e.preventDefault();
-  var menu = document.querySelector('.navigationMenu');
-  menu.classList.toggle('showMenu');
+    e.preventDefault();
+    var menu = document.querySelector('.navigationMenu');
+    menu.classList.toggle('showMenu');
 });
-    
+
 
 const footerElm = document.querySelector(".footer  ");
 const main = document.querySelector(".navBar    ");
@@ -227,8 +249,8 @@ footerElm.after(scrollElement);
 
 // deleting the dom element
 const scrollTop = () => {
-  console.log(1)
-  console.log(main)
+    console.log(1)
+    console.log(main)
     main.scrollIntoView({ behavior: "smooth" });
 };
 
@@ -237,11 +259,11 @@ document.querySelector(".scroll-top").addEventListener("click", scrollTop);
 
 
 
-var typed = new Typed(".typing",{
-    strings:["Web Developer" , "Java Developer" , "MERN Stack Enthusiast" , "Site Relaibility Engineer","Incident Manager","Sports Enthusiast","Problem Solver"],
-    typeSpeed:100,
-    BackSpeed:100,
-    loop:true,
+var typed = new Typed(".typing", {
+    strings: ["Full Stack Developer", "MERN Stack Enthusiast", "Technical Analyst", "Sports Enthusiast", "Problem Solver", "AI Enthusiast", "Quick Learner"],
+    typeSpeed: 100,
+    BackSpeed: 100,
+    loop: true,
     // cursorChar:"_",
     // fadeOut:true,
     // fadeOutDelay:1000
