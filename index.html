@@ -1,560 +1,1043 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>Shray Gupta</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Shray Gupta — Full Stack Developer & MERN Stack Enthusiast. B.Tech CSE graduate from GLA University. Available for work." />
+  <meta name="author" content="Shray Gupta" />
+  <meta property="og:title" content="Shray Gupta | Full Stack Developer" />
+  <meta property="og:description" content="Portfolio of Shray Gupta — Full Stack Developer, MERN Stack Enthusiast, and Problem Solver." />
+  <meta name="theme-color" content="#5b6af0" />
+  <title>Shray Gupta | Full Stack Developer</title>
+
+  <!-- Favicon placeholder -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👨‍💻</text></svg>" />
+
+  <!-- Font Awesome -->
   <link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-/>
-  <link href="style.css" rel="stylesheet" type="text/css" />
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+  <!-- Portfolio CSS -->
+  <link rel="stylesheet" href="css/custom.css" />
+
+  <!-- Inline critical theme to prevent flash -->
+  <script>
+    (function () {
+      var stored = localStorage.getItem('portfolio-theme');
+      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var theme = stored || (prefersDark ? 'dark' : 'light');
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
 </head>
 
 <body>
-  <main class='main'>
-    <nav class='navBar'>
-      <h1>Portfolio Website</h1>
-      <div class="hamburger">☰</div>
-      <div class='navigationMenu'>
-        <a href="#aboutMe" class="aboutme">About Me</a>
-        <a href="#skills"  class="skillandproject">Skills and Projects</a>
-        <a href="#experience" class="experience">Experience</a>
-        <a href="#achievements" class="achievements">Achievements</a>
-        <!-- <a href="#projects">Projects</a> -->
-        <a href="#contactForm" class="contactform">Let's Connect!</a>
-        <div>
-    </nav>
-    <section class='heroSection'>
-      <div  class="img1">
-        <img class='profileImage' src="images/Screenshot (3).png">
+
+  <!-- ══════════════════════════════════════════════════
+       MOBILE NAV DRAWER (full-screen overlay)
+  ══════════════════════════════════════════════════ -->
+  <nav class="mobile-nav" role="dialog" aria-label="Mobile navigation" aria-modal="true">
+    <button class="mobile-nav-close" aria-label="Close menu">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <a href="#aboutMe">About Me</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#experience">Experience</a>
+    <a href="#achievements">Achievements</a>
+    <a href="#contactSection">Let's Connect</a>
+  </nav>
+
+  <!-- ══════════════════════════════════════════════════
+       SCROLL-TO-TOP BUTTON
+  ══════════════════════════════════════════════════ -->
+  <button class="scroll-to-top" aria-label="Scroll to top" title="Back to top">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+
+  <!-- ══════════════════════════════════════════════════
+       MAIN LAYOUT WRAPPER
+  ══════════════════════════════════════════════════ -->
+  <div class="portfolio-wrapper">
+
+    <!-- ── NAVBAR ─────────────────────────────────────── -->
+    <header>
+      <nav class="navbar glass-panel" role="navigation" aria-label="Main navigation">
+        <!-- Brand -->
+        <a href="/" class="navbar-brand" aria-label="Shray Gupta Home">SG.</a>
+
+        <!-- Desktop links -->
+        <ul class="nav-links" role="list" style="list-style-type: none;">
+          <li><a href="#aboutMe">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#achievements">Achievements</a></li>
+          <li><a href="#contactSection">Contact</a></li>
+        </ul>
+
+        <!-- Controls -->
+        <div class="nav-controls">
+          <!-- Dark mode toggle -->
+          <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+          <!-- Hamburger (mobile) -->
+          <button class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </nav>
+    </header>
+
+    <!-- ══════════════════════════════════════════════════
+         HERO SECTION
+    ══════════════════════════════════════════════════ -->
+    <section class="hero-section glass-panel reveal" aria-label="Introduction">
+      <!-- Profile Image -->
+      <div class="hero-image-wrapper">
+        <div class="hero-image-ring">
+          <div class="hero-image-inner">
+            <img
+              src="assets/images/profile.png"
+              alt="Shray Gupta — Full Stack Developer"
+              width="280"
+              height="280"
+              loading="eager"
+              onerror="this.src='https://api.dicebear.com/7.x/initials/svg?seed=SG&backgroundColor=5b6af0&radius=50&fontSize=42'"
+            />
+          </div>
+        </div>
+        <!-- Status badge -->
+        <div class="hero-image-badge">
+          <span class="dot"></span>
+          Available for Work
+        </div>
       </div>
-      <div class='herosectionDetails'>
-        <h1 style="margin-top: 10px;">Shray Gupta</h1>
-        <h2>I'm a <span class="typing"></span></h2>
-        <br>
-        <h3 class="para">Hello! I'm Shray Gupta. A B.Tech Graduate in Computer Science and Engineering from GLA University, specializing in Full Stack development. <br> With a strong foundation in web development and a passion for programming, I build dynamic and efficient web applications, and I am proficient in data structures and algorithms and problem solving.
-        </h3>
-        <br>
-        <div class="buttonDiv"> 
-          <a href="#contactForm" class="btn" style="margin-right: 20px;"> HIRE ME </a> 
-          <a href="https://drive.google.com/file/d/1BGwrUjmtDtMiJC3P0tekUovh0tqB15lG/view?usp=sharing" class="btn" target="_blank"> My Resume </a>
+
+      <!-- Content -->
+      <div class="hero-content">
+        <div class="section-label">
+          <i class="fa-solid fa-code"></i>
+          Full Stack Developer | AI Engineer
+        </div>
+
+        <h1 class="hero-name">Shray Gupta</h1>
+
+        <p class="hero-role">
+          I'm a <span class="typing"></span>
+        </p>
+
+        <p class="hero-bio">
+          B.Tech Computer Science graduate from GLA University, specializing in Full Stack
+          development. I build dynamic, responsive, and efficient web applications with a
+          strong passion for problem solving and clean code.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#contactSection" class="btn btn-primary">
+            <i class="fa-solid fa-handshake"></i>
+            Hire Me
+          </a>
+          <a
+            href="https://drive.google.com/file/d/1ewbtB4Zfrsp29IIDMPelYhCr2Kdzqbma/view?usp=drive_link"
+            class="btn btn-outline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i class="fa-solid fa-file-lines"></i>
+            View Resume
+          </a>
+        </div>
+
+        <!-- Quick stats -->
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <strong>2+</strong>
+            <span>Internships</span>
+          </div>
+          <div class="hero-stat">
+            <strong>7+</strong>
+            <span>Projects</span>
+          </div>
+          <div class="hero-stat">
+            <strong>13+</strong>
+            <span>Technologies</span>
+          </div>
+          <div class="hero-stat">
+            <strong>9+</strong>
+            <span>Certificates</span>
+          </div>
         </div>
       </div>
     </section>
-    <div  id='aboutMe'>
-      <section class='aboutMe'>
-        <h1>About Me </h1>
-      <br>
-      <img src="./images/quote.png" alt="quote" class="image">
-      <p class="para">I am a passionate and hardworking B.Tech Computer Science graduate from GLA University, specializing in Full Stack development. <br> My journey began at Delhi Public School, Mathura Refinery Nagar, Uttar Pradesh. I completed my 10<sup>th</sup> and 12<sup>th</sup> from there. <br> Though I'm an introvert person, my ambition drives me to explore new opportunities and continually improve my skills in the IT sector. <br> With a strong foundation in web development, I build dynamic, responsive, and efficient web applications. <br> My curiosness for coding and problem-solving motivates me to innovate and learn, making me proficient in both development and data structures and algorithms (DSA). <br> I aspire to become a software engineer, eager to contribute to impactful projects and collaborate with like-minded professionals. <br> In my free time, I enjoy playing outdoor games and appreciate having my own company. <br> I look forward to engaging conversations and shared experiences as I progress in my academic and professional journey.</p>
-      <img src="./images/quote1.png" alt="quote1" class="image1">
-    </section>
-  </div>
-  
-    <section class='skillsAndProjects' id='skills'>
-      <div class='skills' >
-        <h1 class='cardHeading'>Skills</h1>
-        <div class="skill">
 
-          <div class="iconsDiv"> 
-            <img title='JAVA' src='images/icons8-java.svg' class="icons">
-            <img title='PYTHON' src='images/icons8-python.svg' class="icons">
-            <img title='MYSQL' src='images/icons8-mysql.svg' class="icons1">
-            <img title='FLASK' src='images/flask.svg' class="icons">
-            <img title='HTML' src='./images/html.svg' class="icons">
-            <img title='CSS' src='./images/css.svg' class="icons">
-            <img title='Javascript' src='./images/javascript.svg' class="icons">
-            <img title='ReactJS' src='./images/react.svg' class="icons" style="height:75px; " >
-            <img title='MongoDB' src='./images/mongodb.svg' class="icons" style="height:55px; " >
-            <img title='ExpressJS' src='./images/express.svg' class="icons" style="height:55px; " >
-            <img title='NodeJS' src='./images/node.svg' class="icons"  >
-            <img title='Firebase' src='./images/firebase.svg' class="icons"  >
-            <img title='JIRA' src='./images/jira.svg' class="icons"  >
+    <!-- ══════════════════════════════════════════════════
+         ABOUT ME
+    ══════════════════════════════════════════════════ -->
+    <section id="aboutMe" class="about-section glass-panel reveal reveal-delay-1" aria-label="About me">
+      <div class="section-label">
+        <i class="fa-solid fa-user"></i>
+        About Me
+      </div>
+      <h2 class="section-title">Who I Am</h2>
+
+      <div class="about-grid">
+        <!-- Bio text with quote styling -->
+        <div class="about-quote-block">
+          <span class="quote-icon">&ldquo;</span>
+          <p>
+            I am a passionate and hardworking B.Tech Computer Science graduate from GLA University,
+            specializing in Full Stack development. My journey began at Delhi Public School, Mathura
+            Refinery Nagar, Uttar Pradesh.
+          </p>
+          <br />
+          <p>
+            Though I'm an introvert, my ambition drives me to explore new opportunities and
+            continually improve my skills in the IT sector. With a strong foundation in web
+            development, I build dynamic, responsive, and efficient web applications.
+          </p>
+          <br />
+          <p>
+            My curiosity for coding and problem-solving motivates me to innovate and learn, making me
+            proficient in both development and data structures &amp; algorithms. I aspire to become a
+            software engineer, eager to contribute to impactful projects and collaborate with like-minded
+            professionals.
+          </p>
+                    <span class="quote-icon" style="text-align: right; margin-top: 3rem;">&rdquo;</span>
+
+        </div>
+
+        <!-- Highlights & quick info -->
+        <div>
+          <h3 style="font-size:var(--fs-xl);font-weight:700;margin-bottom:var(--space-4);color:var(--text-primary);">
+            Quick Facts
+          </h3>
+          <div class="about-highlights">
+            <span class="highlight-chip">
+              <i class="fa-solid fa-graduation-cap"></i>
+              B.Tech CSE — GLA University
+            </span>
+            <span class="highlight-chip">
+              <i class="fa-brands fa-react"></i>
+              AI Enthusiast
+            </span>
+            <span class="highlight-chip">
+              <i class="fa-brands fa-react"></i>
+              MERN Stack Specialist
+            </span>
+            <span class="highlight-chip">
+              <i class="fa-solid fa-location-dot"></i>
+              Mathura, Uttar Pradesh, India
+            </span>
+            <span class="highlight-chip">
+              <i class="fa-solid fa-briefcase"></i>
+              Samsung R&amp;D &amp; InternsElite Alum
+            </span>
+            <span class="highlight-chip">
+              <i class="fa-solid fa-trophy"></i>
+              Multiple Certifications (Google, Microsoft)
+            </span>
+            <span class="highlight-chip">
+              <i class="fa-solid fa-gamepad"></i>
+              Outdoor Sports &amp; Continuous Learner
+            </span>
           </div>
 
-          <div class="proficiencyDiv">
-            <div class="bio-data-stats">
-              <div class="bio-stats">
-                <h3>JAVA</h3>
-                <div class="bio-progress-bar">
-                  <span>80%</span>
-                </div>
-              </div>
-              <div class="bio-stats">
-                <h3>PYTHON</h3>
-                <div class="bio-progress-bar bio-progress-bar1 ">
-                  <span>85%</span>
-                </div>
-              </div>
-              <div class="bio-stats">
-                <h3>MYSQL</h3>
-                <div class="bio-progress-bar bio-progress-bar12 ">
-                  <span>90%</span>
-                </div>
-              </div>
-              <div class="bio-stats">
-                <h3 class="long">FLASK</h3>
-                <div class="bio-progress-bar bio-progress-bar2">
-                  <span>70%</span>
-                </div>
-              </div>
-              <div class="bio-stats">
-                <h3>HTML</h3>
-                <div class="bio-progress-bar bio-progress-bar3">
-                  <span>95%</span>
-                </div>
-              </div>
-              <div class="bio-stats">
-                <h3>CSS</h3>
-                <div class="bio-progress-bar bio-progress-bar4">
-                  <span>85%</span>
-                </div>
-              </div>
-              <div class="bio-stats">
-                <h3>JAVASCRIPT</h3>
-                <div class="bio-progress-bar bio-progress-bar5">
-                  <span>70%</span>
-                </div>
-              </div>
-              <div class="bio-stats">
-                <h3>REACT JS</h3>
-                <div class="bio-progress-bar bio-progress-bar6">
-                  <span>80%</span>
-                </div>
-              </div>
-              <div class="bio-stats">
-                <h3>MONGODB</h3>
-                <div class="bio-progress-bar bio-progress-bar7">
-                  <span>95%</span>
-                </div>
-              </div>
-              <div class="bio-stats">
-                <h3>EXPRESS JS</h3>
-                <div class="bio-progress-bar bio-progress-bar8">
-                  <span>90%</span>
-                </div>
-              </div>
-              <div class="bio-stats">
-                <h3>NODE JS</h3>
-                <div class="bio-progress-bar bio-progress-bar9">
-                  <span>80%</span>
-                </div>
-              </div>
-              <div class="bio-stats">
-                <h3>Firebase</h3>
-                <div class="bio-progress-bar bio-progress-bar10">
-                  <span>60%</span>
-                </div>
-              </div>
-              <div class="bio-stats">
-                <h3>JIRA</h3>
-                <div class="bio-progress-bar bio-progress-bar11">
-                  <span>90%</span>
-                </div>
-              </div>
+          <!-- CTA -->
+          <div style="margin-top:var(--space-6);">
+            <a
+              href="https://drive.google.com/file/d/1ewbtB4Zfrsp29IIDMPelYhCr2Kdzqbma/view?usp=drive_link"
+              class="btn btn-primary"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i class="fa-solid fa-download"></i>
+              Download Resume
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════
+         SKILLS & PROJECTS
+    ══════════════════════════════════════════════════ -->
+    <div class="skills-projects-grid">
+
+      <!-- ── SKILLS ──────────────────────────────────── -->
+      <section id="skills" class="skills-card glass-panel reveal" aria-label="Skills">
+        <div class="section-label">
+          <i class="fa-solid fa-layer-group"></i>
+          Tech Stack
+        </div>
+        <h2 class="section-title">Skills</h2>
+
+        <!-- Icon grid -->
+        <div class="skills-icons-grid" role="list" aria-label="Technology icons">
+          <div class="skill-icon-wrapper" role="listitem" title="Java">
+            <img src="assets/icons/icons8-java.svg" alt="Java" loading="lazy" />
+            <span>Java</span>
+          </div>
+          <div class="skill-icon-wrapper" role="listitem" title="Python">
+            <img src="assets/icons/icons8-python.svg" alt="Python" loading="lazy" />
+            <span>Python</span>
+          </div>
+          <div class="skill-icon-wrapper" role="listitem" title="MySQL">
+            <img src="assets/icons/icons8-mysql.svg" alt="MySQL" loading="lazy" />
+            <span>MySQL</span>
+          </div>
+          <div class="skill-icon-wrapper" role="listitem" title="Flask">
+            <img src="assets/icons/flask.svg" alt="Flask" loading="lazy" />
+            <span>Flask</span>
+          </div>
+          <div class="skill-icon-wrapper" role="listitem" title="HTML5">
+            <img src="assets/icons/html.svg" alt="HTML5" loading="lazy" />
+            <span>HTML</span>
+          </div>
+          <div class="skill-icon-wrapper" role="listitem" title="CSS3">
+            <img src="assets/icons/css.svg" alt="CSS3" loading="lazy" />
+            <span>CSS</span>
+          </div>
+          <div class="skill-icon-wrapper" role="listitem" title="JavaScript">
+            <img src="assets/icons/javascript.svg" alt="JavaScript" loading="lazy" />
+            <span>JS</span>
+          </div>
+          <div class="skill-icon-wrapper" role="listitem" title="TypeScript">
+            <img src="assets/icons/typescript.svg" alt="TypeScript" loading="lazy" />
+            <span>TS</span>
+          </div>
+          <div class="skill-icon-wrapper" role="listitem" title="React">
+            <img src="assets/icons/react.svg" alt="React" loading="lazy" />
+            <span>React</span>
+          </div>
+          <div class="skill-icon-wrapper" role="listitem" title="Next">
+            <img src="assets/icons/next.svg" alt="Next" loading="lazy" />
+            <span>Next</span>
+          </div>
+          <div class="skill-icon-wrapper" role="listitem" title="Redux">
+            <img src="assets/icons/redux.svg" alt="Redux" loading="lazy" />
+            <span>Redux</span>
+          </div>
+          <div class="skill-icon-wrapper" role="listitem" title="MongoDB">
+            <img src="assets/icons/mongodb.svg" alt="MongoDB" loading="lazy" />
+            <span>Mongo</span>
+          </div>
+          <div class="skill-icon-wrapper" role="listitem" title="Redis">
+            <img src="assets/icons/redis.svg" alt="Redis" loading="lazy" />
+            <span>Redis</span>
+          </div>
+          <div class="skill-icon-wrapper" role="listitem" title="Express.js">
+            <img src="assets/icons/express.svg" alt="Express.js" loading="lazy" />
+            <span>Express</span>
+          </div>
+          <div class="skill-icon-wrapper" role="listitem" title="Node.js">
+            <img src="assets/icons/node.svg" alt="Node.js" loading="lazy" />
+            <span>Node</span>
+          </div>
+          <div class="skill-icon-wrapper" role="listitem" title="Firebase">
+            <img src="assets/icons/firebase.svg" alt="Firebase" loading="lazy" />
+            <span>Firebase</span>
+          </div>
+          <div class="skill-icon-wrapper" role="listitem" title="Jira">
+            <img src="assets/icons/jira.svg" alt="Jira" loading="lazy" />
+            <span>Jira</span>
+          </div>
+          <div class="skill-icon-wrapper" role="listitem" title="Git">
+            <img src="assets/icons/git.svg" alt="Git" loading="lazy" />
+            <span>Git</span>
+          </div>
+          <div class="skill-icon-wrapper" role="listitem" title="Github">
+            <img src="assets/icons/github.svg" alt="Github" loading="lazy" />
+            <span>Github</span>
+          </div>
+          <div class="skill-icon-wrapper" role="listitem" title="Postman">
+            <img src="assets/icons/postman.svg" alt="Postman" loading="lazy" />
+            <span>Postman</span>
+          </div>
+        </div>
+
+        <!-- Proficiency bars -->
+        <div class="skills-bars" role="list" aria-label="Skill proficiency levels">
+         <div class="skill-bar-item" role="listitem">
+            <div class="skill-bar-header">
+              <span>AIML</span>
+              <span>85%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-width="85%" style="width:0%"></div>
             </div>
           </div>
-          
-        </div>
-      </div>
-      <div class='projects' id='projects'>
-        <h1 class='cardHeading'>Projects</h1>
-        <div class='projectContainer'>
-          <img src='./images/notes.svg' class=""/>
-          <div class='projectDescription'>
-            <h4>Notes Taking app       <a href="https://github.com/SG17THEProgrammer/Note-Taking-App" target="_blank"><i class="fa-solid fa-paper-plane fa-lg btn1" style="color: #4fb1c9; " title="View Project" ></i></a>
-            </h4> 
-            <h5>Tech Used : HTML , CSS , JS</h5>
-            <p>This app is your daily life companion, keeping you organized and on top of your to-do list. Seamlessly manage your day’s activities and much more with just a few clicks!</p>
-          </div>
-        </div>
-        <div class='projectContainer'>
-          <img src='./images/price.png' class=""/>
-          <div class='projectDescription'>
-            <h4>Real state price prediction 
-               <!-- <a href="#" target="_blank"><i class="fa-solid fa-paper-plane fa-lg btn1" style="color: #4fb1c9; " title="View Project" ></i></a> -->
-            </h4>
-            <h5>Tech Used : Machine Learning , Google Collab </h5>
-            <p>Unlock the power of data with our project that precisely estimates the price of any house from a given dataset. Dive into the world of real estate insights and discover the true value of properties with accuracy and ease!</p>
-          </div>
-        </div>
-        <div class='projectContainer'>
-          <img src='./images/food.png' class=""/>
-          <div class='projectDescription'>
-            <h4>Food and Grocery Ordering App  <a href="https://swadehindustan.netlify.app/" target="_blank"><i class="fa-solid fa-paper-plane fa-lg btn1" style="color: #4fb1c9; " title="View Project" ></i></a></h4>
-            <h5>Tech Used : MERN Stack </h5>
-            <p>Satisfy your cravings with Swad E Hindustan, the ultimate food ordering app that brings delicious meals right to your doorstep. From local favorites to gourmet delights, enjoy a seamless and delightful dining experience with just a few taps!</p>
-          </div>
-        </div>
-        <div class='projectContainer'>
-          <img src='./images/quiz.svg' style="transform: scale(1.5);"/>
-          <div class='projectDescription'>
-            <h4>Quiz App   <a href="https://github.com/SG17THEProgrammer/quiz_app_using_react" target="_blank"><i class="fa-solid fa-paper-plane fa-lg btn1" style="color: #4fb1c9; " title="View Project" ></i></a></h4>
-            <h5>Tech Used : HTML , CSS ,JS , REACT</h5>
-            <p>Test your knowledge and challenge your friends with our dynamic quiz app! Designed for curious minds, our app offers a fun and interactive way to learn and compete. Dive into a world of trivia and see how you stack up against the best!</p>
-          </div>
-        </div>
-        <!-- <div class='projectContainer'>
-          <img src='./images/buisness.png' class=""/>
-          <div class='projectDescription'>
-            <h4>Buisness App  <a href="https://github.com/SG17THEProgrammer/Buisness_Website_MERN" target="_blank"><i class="fa-solid fa-paper-plane fa-lg btn1" style="color: #4fb1c9; " title="View Project" ></i></a></h4>
-            <h5>Tech Used : MERN Stack</h5>
-            <p>Transform your business operations with our cutting-edge app designed to streamline processes, boost efficiency, and drive growth. Experience the power of innovation and simplicity combined in one powerful solution.</p>
-          </div>
-        </div> -->
-        <!-- <div class='projectContainer'>
-          <img src='./images/art.png' class="" style="transform: scale(1.4);"/>
-          <div class='projectDescription'>
-            <h4>Art Gallery  <a href="https://creativeartgallery.netlify.app/" target="_blank"><i class="fa-solid fa-paper-plane fa-lg btn1" style="color: #4fb1c9; " title="View Project" ></i></a></h4>
-            <h5>Tech Used :  MERN Stack</h5>
-            <p>Step into a world of artistic brilliance with our Art Gallery app, where every swipe unveils a masterpiece and every detail tells a story. Immerse yourself in a curated collection of stunning artworks, all at your fingertips.</p>
-          </div>
-        </div> -->
-        <div class='projectContainer'>
-          <img src='https://png.pngtree.com/png-clipart/20240508/original/pngtree-blogging-isometric-landing-page-png-image_15038641.png' class="" style="transform: scale(1.2);"/>
-          <div class='projectDescription'>
-            <h4>Blogging Website <a href="/" target="_blank"><i class="fa-solid fa-paper-plane fa-lg btn1" style="color: #4fb1c9; " title="View Project" ></i></a></h4>
-            <h5>Tech Used : AI + MERN Stack</h5>
-            <p>Step into the world of effortless blogging with our AI-powered platform, where creating, editing, and sharing posts is seamless. Enjoy a clean, responsive design and secure interactions, making every story a pleasure to tell and read.</p>
-          </div>
-          </div>
-        <div class='projectContainer'>
-          <img src='https://png.pngtree.com/png-clipart/20250415/original/pngtree-social-media-marketing-3d-illustration-smartphone-megaphone-and-engagement-icons-png-image_20714016.png' class="" style="transform: scale(1.2);background-image: none;"/>
-          <div class='projectDescription'>
-            <h4>Shift Handover Tool<a href="/" target="_blank">
-              <!-- <i class="fa-solid fa-paper-plane fa-lg btn1" style="color: #4fb1c9; " title="View Project" ></i> -->
-            </a></h4>
-            <h5>Tech Used : React, Flask, SQL</h5>
-            <p>Step into the world of effortless blogging with our AI-powered platform, where creating, editing, and sharing posts is seamless. Enjoy a clean, responsive design and secure interactions, making every story a pleasure to tell and read.</p>
-          </div>
-        </div>
-        <div class='projectContainer'>
-          <img src='https://png.pngtree.com/png-clipart/20220429/original/pngtree-the-administrative-staff-sends-emails-to-the-company-s-customers-online-png-image_7579704.png' class="" style="transform: scale(1);background-image: none; object-fit: cover;"/>
-          <div class='projectDescription'>
-            <h4>Email Scheduling Platform <a href="https://github.com/SG17THEProgrammer/Email-scheduler" target="_blank">
-              <!-- <i class="fa-solid fa-paper-plane fa-lg btn1" style="color: #4fb1c9; " title="View Project" ></i> -->
-            </a></h4>
-            <h5>Tech Used : React, Redis, BullMQ, Material UI</h5>
-            <p>Experience seamless, reliable email automation with a powerful BullMQ and Redis-based scheduler. Designed with delayed jobs, retries, concurrency control, and persistent workers, it ensures fault-tolerant delivery with no duplicates—even across server restarts—while a modern Google OAuth-enabled dashboard lets you schedule and track emails in real time.
-</p>
-          </div>
-        </div>
-      </div>
-    </section>
-<div id="experience">
-    <section class="expSec" > 
-      <h2 style="margin-bottom: 10px;">Experience</h2>
-      <div class="expDiv">
-
-        <div>
-            <h3>2 Months Internship </h3>
-              <h4>InternsElite , An EduTech Company</h4>   
-              <h3 style="margin: 10px 0 ;">Projects</h3>
-              
-             
-                <div class="project">
-                  <div class="pro1">
-                    <h5 style="margin-bottom: 10px;font-size: 13px;" >Note Taking App &nbsp;  <i class="fa-solid fa-clipboard fa-beat-fade fa-lg"  class="icon"></i></h5>
-                    <p>A dynamic web-based notes application allowing users to create, edit, and organize their notes efficiently. Features a clean and intuitive interface for seamless note-taking.</p>
-                  </div>
-                  <div class="pro1">
-                    <h5 style="margin-bottom: 10px;font-size: 13px;" >Quiz Taking App &nbsp; <i class="fa-brands fa-quinscape fa-beat-fade fa-lg" class="icon"></i></h5>
-                    <p>A quiz-taking app that allows users to answer multiple-choice questions, providing instant feedback on their performance and tracking their scores.</p>
-                  </div>
-                      
-                </div>
-                <h3 style="margin: 20px 0 ;margin-left: 2px;">Certificates</h3>
-                <div class="certificate">
-                  <div class="pro1">
-                      <h5 style="margin: 5px 0;">Certifcate of Internship</h5>
-                      <div class="hover-div img-overlay p-btn--1 ">
-
-                        <img src="./images/internship.png" alt="" class="img2" loading="lazy" >
-                        <div  class="overlay" 
-                        >
-                          <a href="https://drive.google.com/file/d/1UMbvcu-ju-mc6JIuyW8TaQvn4RMFHIER/view"  class="anc" target="_blank">Show credentials</a> 
-                        </div>
-                      </div>
-                    </div>
-                    <div class="pro1">
-                      <h5 style="margin: 5px 0;">Certificate of Training</h5>
-                      <div class="hover-div img-overlay p-btn--1 ">
-
-                        <img src="./images/training.png" alt="" class="img2" loading="lazy">
-                        <div  class="overlay" 
-                        >
-                          <a href="https://drive.google.com/file/d/1Q8Ajd7D9k4AJSQnrA7ggu2cE4gOKyuGW/view?usp=sharing"  class="anc" target="_blank">Show credentials</a> 
-                        </div>
-                      </div>
-                    </div>
-                    <div class="pro1">
-                      <h5 style="margin: 5px 0;">Certificate of Projects</h5>
-                      <div class="hover-div img-overlay p-btn--1 ">
-
-                        <img src="./images/project.png" alt="" class="img2" loading="lazy">
-                        <div  class="overlay" 
-                        >
-                          <a href="https://drive.google.com/file/d/143-2X-v7eE5frxJilg5ToLEDxzUnaUs5/view?usp=sharing"  class="anc" target="_blank">Show credentials</a> 
-                        </div>
-                      </div>
-                    </div>
-                </div>
-
-        </div>
-
-
-        <div class="videoDiv">
-          <video class="video" loop autoplay muted >
-            <source src="./images/office1.mp4" type="video/mp4">
-          </video>
-        </div>
-
-      </div>
-
-      <div class="expDiv1">
-
-        <div>
-            <h3>9 months Internship</h3>
-              <h4>Samsung R&D Institute, Noida, India</h4>   
-              <h3 style="margin: 10px 0 ;">Projects</h3>
-              
-             
-                <div class="project">
-                  <div class="pro1">
-                    <h5 style="margin-bottom: 10px;font-size: 17px;" >Shift Handover Tool &nbsp;  <i class="fa-solid fa-handshake fa-shake icon" style="font-size: 20px;"></i></h5>
-                    <p>A dynamic web-based shift handover tool designed for smooth transfer of tasks, issues, and updates between shifts. Packed with features like creating, deleting, and cloning incidents, along with generating complete handovers for any shift—ensuring nothing slips through the cracks.</p>
-                  </div>
-                  <div class="pro1">
-                    <h5 style="margin-bottom: 10px;font-size: 13px;" >Utility Tool &nbsp; <i class="fa-solid fa-circle-info fa-beat fa-lg icon"></i></h5>
-                    <p>A fast and efficient channel analysis tool built to check DRM status, HEVC support, geo-blocking, and variant counts in seconds. Powered by an automated script to eliminate manual checks, making the verification process quick and effortless.</p>
-                  </div>
-                      
-                </div>
-                <!-- <h3 style="margin: 20px 0 ;margin-left: 2px;">Certificates</h3>
-                <div class="certificate">
-                  <div class="pro1">
-                      <h5 style="margin: 5px 0;">Certifcate of Internship</h5>
-                      <div class="hover-div img-overlay p-btn--1 ">
-
-                        <img src="./images/internship.png" alt="" class="img2" loading="lazy" >
-                        <div  class="overlay" 
-                        >
-                          <a href="https://drive.google.com/file/d/1UMbvcu-ju-mc6JIuyW8TaQvn4RMFHIER/view"  class="anc" target="_blank">Show credentials</a> 
-                        </div>
-                      </div>
-                    </div>
-                    <div class="pro1">
-                      <h5 style="margin: 5px 0;">Certificate of Training</h5>
-                      <div class="hover-div img-overlay p-btn--1 ">
-
-                        <img src="./images/training.png" alt="" class="img2" loading="lazy">
-                        <div  class="overlay" 
-                        >
-                          <a href="https://drive.google.com/file/d/1Q8Ajd7D9k4AJSQnrA7ggu2cE4gOKyuGW/view?usp=sharing"  class="anc" target="_blank">Show credentials</a> 
-                        </div>
-                      </div>
-                    </div>
-                    <div class="pro1">
-                      <h5 style="margin: 5px 0;">Certificate of Projects</h5>
-                      <div class="hover-div img-overlay p-btn--1 ">
-
-                        <img src="./images/project.png" alt="" class="img2" loading="lazy">
-                        <div  class="overlay" 
-                        >
-                          <a href="https://drive.google.com/file/d/143-2X-v7eE5frxJilg5ToLEDxzUnaUs5/view?usp=sharing"  class="anc" target="_blank">Show credentials</a> 
-                        </div>
-                      </div>
-                    </div> -->
-                </div>
-
-                <div class="videoDiv">
-          <video class="video" loop autoplay muted >
-            <source src="./images/office.mp4" type="video/mp4">
-          </video>
-        </div>
-
-        </div>
-
-
-        <!-- <div class="videoDiv">
-          <video class="video" loop autoplay muted >
-            <source src="./images/office1.mp4" type="video/mp4">
-          </video>
-        </div> -->
-
-      </div>
-
-    </section>
-  </div>
-
-
-  <div id="achievements">
-      <section class="achDiv">
-        <h2>Achievements and Certificates</h2>
-        <div class="innerAchDiv">
-            <div class="videoDivAch">
-              <video class="video1" loop autoplay muted >
-                <source src="./images/achievement.mp4" type="video/mp4" >
-              </video>
+          <div class="skill-bar-item" role="listitem">
+            <div class="skill-bar-header">
+              <span>HTML / CSS</span>
+              <span>95%</span>
             </div>
-      <div class="sliderDiv">
-              <div class="swiper mySwiper ">
-                <div class="swiper-wrapper">
-                  <div class="swiper-slide"> <img src="./images/quizfest.png" class="img3" alt="">
-                  </div>
-                  <div class="swiper-slide"> <img src="./images/madcad.png" class="img3" alt=""></div>
-                  <div class="swiper-slide"> <img src="./images/git.png" class="img3" alt=""></div>
-                  <div class="swiper-slide"> <img src="./images/googlePrice.png" class="img3" alt=""></div>
-                  <div class="swiper-slide"> <img src="./images/microsoftPrice.png" class="img3" alt=""></div>
-                  <div class="swiper-slide"> <img src="./images/backendApi.png" class="img3" alt=""></div>
-                  <div class="swiper-slide"> <img src="./images/googleBackendApi.png" class="img3" alt=""></div>
-                  <div class="swiper-slide"> <img src="./images/microPort.png" class="img3" alt=""></div>
-                  <div class="swiper-slide"> <img src="./images/googlePort.png" class="img3" alt=""></div>
-                </div>
-                <br>
-                <div class="swiper-pagination"></div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-width="95%" style="width:0%"></div>
             </div>
           </div>
-
+          <div class="skill-bar-item" role="listitem">
+            <div class="skill-bar-header">
+              <span>Python</span>
+              <span>85%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-width="85%" style="width:0%"></div>
+            </div>
           </div>
+          <div class="skill-bar-item" role="listitem">
+            <div class="skill-bar-header">
+              <span>JavaScript / React</span>
+              <span>95%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-width="95%" style="width:0%"></div>
+            </div>
+          </div>
+          <div class="skill-bar-item" role="listitem">
+            <div class="skill-bar-header">
+              <span>MongoDB / Express</span>
+              <span>95%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-width="95%" style="width:0%"></div>
+            </div>
+          </div>
+          <div class="skill-bar-item" role="listitem">
+            <div class="skill-bar-header">
+              <span>Java</span>
+              <span>90%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-width="90%" style="width:0%"></div>
+            </div>
+          </div>
+          <div class="skill-bar-item" role="listitem">
+            <div class="skill-bar-header">
+              <span>MySQL</span>
+              <span>90%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-width="90%" style="width:0%"></div>
+            </div>
+          </div>
+          <div class="skill-bar-item" role="listitem">
+            <div class="skill-bar-header">
+              <span>Firebase / Jira</span>
+              <span>75%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-width="75%" style="width:0%"></div>
+            </div>
+          </div>
+          <div class="skill-bar-item" role="listitem">
+            <div class="skill-bar-header">
+              <span>Git / Github</span>
+              <span>95%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-width="95%" style="width:0%"></div>
+            </div>
+          </div>
+          <div class="skill-bar-item" role="listitem">
+            <div class="skill-bar-header">
+              <span>Flask</span>
+              <span>80%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-width="80%" style="width:0%"></div>
+            </div>
+          </div>
+        </div>
       </section>
-  </div>
 
+      <!-- ── PROJECTS ────────────────────────────────── -->
+      <section id="projects" class="projects-card glass-panel reveal reveal-delay-1" aria-label="Projects">
+        <div class="section-label">
+          <i class="fa-solid fa-rocket"></i>
+          Portfolio
+        </div>
+        <h2 class="section-title">Projects</h2>
 
-  <div class="freelance">
-    <section class="section section-freelancer ">
-      <div class="overlay"></div>
-      <div class="container">
-      <h3 style="font-size: 35px;">I am <span> available </span> for work</h3>
-      <p>Driven B.Tech Computer Science student with a strong foundation in MERN stack development, eager to bring innovative solutions and technical expertise to a forward-thinking software engineering team.</p>
-      <a href="#contactForm" class="btn"> HIRE ME </a>
+        <!-- Project list -->
+        <div class="projects-list" role="list">
+
+          <article class="project-item" role="listitem">
+            <img
+              src="assets/images/notes.svg"
+              alt="Notes Taking App"
+              class="project-thumb"
+              loading="lazy"
+              onerror="this.src='https://api.dicebear.com/7.x/icons/svg?seed=notes&backgroundColor=5b6af0'"
+            />
+            <div class="project-info">
+              <h4>
+                Notes Taking App
+                <a
+                  href="https://github.com/SG17THEProgrammer/Note-Taking-App"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="View Notes Taking App on GitHub"
+                >
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i> GitHub
+                </a>
+              </h4>
+              <span class="project-tech">HTML · CSS · JavaScript</span>
+              <p>Your daily companion for staying organized — create, edit, and manage notes and to-do lists seamlessly.</p>
+            </div>
+          </article>
+
+          <article class="project-item" role="listitem">
+            <img
+              src="assets/images/price.png"
+              alt="Real Estate Price Prediction"
+              class="project-thumb"
+              loading="lazy"
+              onerror="this.src='https://api.dicebear.com/7.x/icons/svg?seed=price&backgroundColor=8b5cf6'"
+            />
+            <div class="project-info">
+              <h4>Real Estate Price Prediction</h4>
+              <span class="project-tech">Machine Learning · Google Colab</span>
+              <p>Data-driven house price estimation using ML models — unlock real estate insights with precision and ease.</p>
+            </div>
+          </article>
+
+          <article class="project-item" role="listitem">
+            <img
+              src="assets/images/food.png"
+              alt="Swad E Hindustan — Food Ordering App"
+              class="project-thumb"
+              loading="lazy"
+              onerror="this.src='https://api.dicebear.com/7.x/icons/svg?seed=food&backgroundColor=06b6d4'"
+            />
+            <div class="project-info">
+              <h4>
+                Food &amp; Grocery Ordering App
+                <a
+                  href="https://swadehindustan.netlify.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Visit Swad E Hindustan app"
+                >
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i> Live
+                </a>
+                <a
+                  href="https://github.com/SG17THEProgrammer/Food-App-Mern"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Visit Swad E Hindustan app"
+                >
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i> Github
+                </a>
+              </h4>
+              <span class="project-tech">MERN Stack</span>
+              <p>Swad E Hindustan — delicious meals delivered to your doorstep with a seamless, modern ordering experience.</p>
+            </div>
+          </article>
+
+          <article class="project-item" role="listitem">
+            <img
+              src="assets/images/quiz.svg"
+              alt="Quiz App"
+              class="project-thumb"
+              loading="lazy"
+              onerror="this.src='https://api.dicebear.com/7.x/icons/svg?seed=quiz&backgroundColor=5b6af0'"
+            />
+            <div class="project-info">
+              <h4>
+                Quiz App
+                <a
+                  href="https://github.com/SG17THEProgrammer/quiz_app_using_react"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="View Quiz App on GitHub"
+                >
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i> GitHub
+                </a>
+              </h4>
+              <span class="project-tech">React · HTML · CSS · JavaScript</span>
+              <p>Dynamic, interactive quiz platform — test your knowledge and challenge friends with real-time feedback.</p>
+            </div>
+          </article>
+
+          <article class="project-item" role="listitem">
+            <img
+              src="https://png.pngtree.com/png-clipart/20240508/original/pngtree-blogging-isometric-landing-page-png-image_15038641.png"
+              alt="AI Blogging Website"
+              class="project-thumb"
+              loading="lazy"
+            />
+            <div class="project-info">
+              <h4>AI Blogging Website
+                <a
+                  href="https://github.com/SG17THEProgrammer/BlogWebsite_N_ToDoList/tree/main/Task_2"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="View Quiz App on GitHub"
+                >
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i> GitHub
+                </a>
+
+              </h4>
+              <span class="project-tech">AI · MERN Stack</span>
+              <p>Effortless blogging powered by AI — clean design, secure interactions, and seamless content creation.</p>
+            </div>
+          </article>
+
+          <article class="project-item" role="listitem">
+            <img
+              src="assets/images/shift.svg"
+              alt="Shift Handover Tool"
+              class="project-thumb"
+              loading="lazy"
+              onerror="this.src='https://api.dicebear.com/7.x/icons/svg?seed=shift&backgroundColor=8b5cf6'"
+            />
+            <div class="project-info">
+              <h4>Shift Handover Tool</h4>
+              <span class="project-tech">React · Flask · SQL</span>
+              <p>Smooth task transfer between shifts — create, delete, and clone incidents with full handover generation.</p>
+            </div>
+          </article>
+
+          <article class="project-item" role="listitem">
+            <img
+              src="https://png.pngtree.com/png-clipart/20220429/original/pngtree-the-administrative-staff-sends-emails-to-the-company-s-customers-online-png-image_7579704.png"
+              alt="Email Scheduling Platform"
+              class="project-thumb"
+              loading="lazy"
+            />
+            <div class="project-info">
+              <h4>
+                Email Scheduling Platform
+                <a
+                  href="https://github.com/SG17THEProgrammer/Email-scheduler"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="View Email Scheduler on GitHub"
+                >
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i> GitHub
+                </a>
+              </h4>
+              <span class="project-tech">React · Redis · BullMQ · Material UI</span>
+              <p>Fault-tolerant email automation with delayed jobs, retries, and a real-time Google OAuth dashboard.</p>
+            </div>
+          </article>
+
+        </div>
+      </section>
+    </div><!-- /skills-projects-grid -->
+
+    <!-- ══════════════════════════════════════════════════
+         EXPERIENCE
+    ══════════════════════════════════════════════════ -->
+    <section id="experience" class="experience-section glass-panel reveal" aria-label="Work experience">
+      <div class="section-label">
+        <i class="fa-solid fa-briefcase"></i>
+        Experience
+      </div>
+      <h2 class="section-title">Where I've Worked</h2>
+
+      <div class="experience-timeline">
+
+        <!-- InternsElite -->
+        <div class="exp-card">
+          <div class="exp-timeline-column">
+            <div class="exp-dot"></div>
+            <div class="exp-line"></div>
+          </div>
+          <div class="exp-content">
+            <div class="exp-header">
+              <p class="exp-duration">
+                <i class="fa-solid fa-calendar-days"></i>
+                2 Months
+              </p>
+              <h3 class="exp-role">Web Developer Intern</h3>
+              <p class="exp-company">InternsElite — An EduTech Company</p>
+            </div>
+
+            <h4 style="font-size:var(--fs-sm);margin-bottom:var(--space-3);color:var(--text-secondary);">Projects Delivered</h4>
+            <div class="exp-projects-grid">
+              <div class="exp-project-chip">
+                <h5>
+                  <i class="fa-solid fa-clipboard fa-beat-fade"></i>
+                  Note Taking App
+                </h5>
+                <p>A dynamic web-based notes application with clean UI for creating, editing, and organizing notes efficiently.</p>
+              </div>
+              <div class="exp-project-chip">
+                <h5>
+                  <i class="fa-brands fa-quinscape fa-beat-fade"></i>
+                  Quiz Taking App
+                </h5>
+                <p>Multiple-choice quiz platform providing instant performance feedback and score tracking.</p>
+              </div>
+            </div>
+
+            <h4 style="font-size:var(--fs-sm);margin-bottom:var(--space-3);color:var(--text-secondary);">Certificates</h4>
+            <div class="exp-certs-grid">
+              <div>
+                <div class="cert-card">
+                  <img src="assets/images/internship.png" alt="Certificate of Internship" loading="lazy" />
+                  <div class="cert-overlay">
+                    <a href="https://drive.google.com/file/d/1UMbvcu-ju-mc6JIuyW8TaQvn4RMFHIER/view" target="_blank" rel="noopener noreferrer">
+                      View Credential
+                    </a>
+                  </div>
+                </div>
+                <p class="cert-label">Internship</p>
+              </div>
+              <div>
+                <div class="cert-card">
+                  <img src="assets/images/training.png" alt="Certificate of Training" loading="lazy" />
+                  <div class="cert-overlay">
+                    <a href="https://drive.google.com/file/d/1Q8Ajd7D9k4AJSQnrA7ggu2cE4gOKyuGW/view?usp=sharing" target="_blank" rel="noopener noreferrer">
+                      View Credential
+                    </a>
+                  </div>
+                </div>
+                <p class="cert-label">Training</p>
+              </div>
+              <div>
+                <div class="cert-card">
+                  <img src="assets/images/project.png" alt="Certificate of Projects" loading="lazy" />
+                  <div class="cert-overlay">
+                    <a href="https://drive.google.com/file/d/143-2X-v7eE5frxJilg5ToLEDxzUnaUs5/view?usp=sharing" target="_blank" rel="noopener noreferrer">
+                      View Credential
+                    </a>
+                  </div>
+                </div>
+                <p class="cert-label">Projects</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Samsung R&D -->
+        <div class="exp-card">
+          <div class="exp-timeline-column">
+            <div class="exp-dot"></div>
+          </div>
+          <div class="exp-content">
+            <div class="exp-header">
+              <p class="exp-duration">
+                <i class="fa-solid fa-calendar-days"></i>
+                9 Months
+              </p>
+              <h3 class="exp-role">Technical Analyst Intern</h3>
+              <p class="exp-company">Samsung Electronics R&amp;D Institute, Noida, India</p>
+            </div>
+
+            <h4 style="font-size:var(--fs-sm);margin-bottom:var(--space-3);color:var(--text-secondary);">Projects Delivered</h4>
+            <div class="exp-projects-grid">
+              <div class="exp-project-chip">
+                <h5>
+                  <i class="fa-solid fa-handshake fa-shake"></i>
+                  Shift Handover Tool
+                </h5>
+                <p>Web-based tool for smooth shift-to-shift task transfer with incident creation, deletion, cloning, and full handover generation.</p>
+              </div>
+              <div class="exp-project-chip">
+                <h5>
+                  <i class="fa-solid fa-circle-info fa-beat"></i>
+                  Utility / Analysis Tool
+                </h5>
+                <p>Fast channel analysis tool checking DRM status, HEVC support, geo-blocking, and variant counts — powered by automated scripts.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
-  </div>
 
-  <!-- Can use this as well for email -->
-      <!-- action="https://api.web3forms.com/submit" method="POST"  -->
-<div id='contactForm'>
-    <section class='contactForm' >
-      <h2 style="margin-bottom: 5px;">Let's Connect!</h2>
-      <form style="height: fit-content;" class="form" 
-      
-      
-      id="submit">
-          <input type="hidden" name="access_key" value="e8fa7b2e-8a34-499e-b006-8bd583f75a46">
-        <div class='formGroup'>
-          <label for='name'>Enter Your Full Name</label><br />
-          <input type='text' id='name' name="name" placeholder='Full Name' required />
+    <!-- ══════════════════════════════════════════════════
+         ACHIEVEMENTS & CERTIFICATES
+    ══════════════════════════════════════════════════ -->
+    <section id="achievements" class="achievements-section glass-panel reveal" aria-label="Achievements and certificates">
+      <div class="section-label">
+        <i class="fa-solid fa-trophy"></i>
+        Recognition
+      </div>
+      <h2 class="section-title">Achievements &amp; Certificates</h2>
+
+      <div class="achievements-inner">
+        <!-- Animation / Video -->
+        <div class="achievements-lottie">
+          <video loop autoplay muted playsinline aria-hidden="true">
+            <source src="assets/images/achievement.mp4" type="video/mp4" />
+          </video>
         </div>
-        <div class='formGroup'>
-          <label for='email'>Enter your Email</label><br />
-          <input type='email' id='email' name="email" placeholder='Email' required/>
+
+        <!-- Swiper carousel -->
+        <div class="sliderDiv">
+          <div class="swiper mySwiper" aria-label="Certificate carousel">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide"><img src="assets/images/quizfest.png"       alt="Quizfest Achievement"       loading="lazy" /></div>
+              <div class="swiper-slide"><img src="assets/images/madcad.png"         alt="MadCad Achievement"         loading="lazy" /></div>
+              <div class="swiper-slide"><img src="assets/images/git.png"            alt="Git Achievement"            loading="lazy" /></div>
+              <div class="swiper-slide"><img src="assets/images/googlePrice.png"    alt="Google Certificate"         loading="lazy" /></div>
+              <div class="swiper-slide"><img src="assets/images/microsoftPrice.png" alt="Microsoft Certificate"      loading="lazy" /></div>
+              <div class="swiper-slide"><img src="assets/images/backendApi.png"     alt="Backend API Certificate"    loading="lazy" /></div>
+              <div class="swiper-slide"><img src="assets/images/googleBackendApi.png" alt="Google Backend API Cert" loading="lazy" /></div>
+              <div class="swiper-slide"><img src="assets/images/microPort.png"      alt="Microsoft Portfolio Cert"   loading="lazy" /></div>
+              <div class="swiper-slide"><img src="assets/images/googlePort.png"     alt="Google Portfolio Cert"      loading="lazy" /></div>
+              <div class="swiper-slide"><img src="assets/images/aws.png"     alt="AWS Architect Fundamentals"      loading="lazy" /></div>
+              <div class="swiper-slide"><img src="assets/images/ibm.png"     alt="IBM AI Fundamentals"      loading="lazy" /></div>
+            </div>
+            <div class="swiper-pagination"></div>
+          </div>
         </div>
-        <div class='formGroup'>
-          <label for='subject'>Subject</label><br />
-          <input placeholder="Write subject!" name="subject" id="subject" required></input>
-        </div>
-        <div class='formGroup'>
-          <label for='message'>Your Message</label><br />
-          <textarea placeholder="Send some message!" id="message" name="message" rows="4" cols="50" required></textarea>
-        </div>
-        <button class='submitButton' id="submit">Connect</button>
-      </form>
+      </div>
     </section>
-  </div>  
 
-    <!-- <section class="section1">Footer Example 4</section> -->
-     <div class="footer">
-
-<footer class="footer-distributed">
-
-      <div class="footer-left">
-
-        <h3>Shray<span>Gupta</span></h3>
-
-        <p class="footer-links">
-          <a href="/" class="link-1">Home</a>
-          
-          <!-- <a href="#">Blog</a>
-        
-          <a href="#">Pricing</a> -->
-        
-          <a href="#aboutMe" class="footabout">About</a>
-          
-          <!-- <a href="#">Faq</a> -->
-          
-          <a href="#contactForm" class="footContact">Contact</a>
+    <!-- ══════════════════════════════════════════════════
+         HIRE ME BANNER
+    ══════════════════════════════════════════════════ -->
+    <div class="hire-banner reveal">
+      <div class="hire-banner-content">
+        <h3>I am <span>available</span> for work</h3>
+        <p>
+          Driven Full Stack Developer with a strong MERN foundation, eager to bring innovative
+          solutions and technical expertise to a forward-thinking engineering team.
         </p>
+        <a href="#contactSection" class="btn btn-primary">
+          <i class="fa-solid fa-handshake"></i>
+          Hire Me
+        </a>
+      </div>
+    </div>
 
-        <p class="footer-company-name">Made By 💌 by Shray Gupta</p>
+    <!-- ══════════════════════════════════════════════════
+         CONTACT
+    ══════════════════════════════════════════════════ -->
+    <section id="contactSection" class="contact-section glass-panel reveal" aria-label="Contact">
+      <div class="section-label">
+        <i class="fa-solid fa-envelope"></i>
+        Contact
+      </div>
+      <h2 class="section-title">Let's <span class="gradient-text">Connect</span></h2>
+
+      <div class="contact-grid">
+        <!-- Left: Info -->
+        <div class="contact-info">
+          <h3>Get in Touch</h3>
+          <p>
+            Have a project in mind or want to discuss an opportunity? I'd love to hear from you.
+            Fill out the form and I'll get back to you as soon as possible.
+          </p>
+
+          <address class="contact-detail-list">
+            <div class="contact-detail">
+              <div class="contact-detail-icon"><i class="fa-solid fa-location-dot"></i></div>
+              <div class="contact-detail-text">
+                <strong>Location</strong>
+                <span>A-30 Pushpanjali Upavan, Mathura, Uttar Pradesh</span>
+              </div>
+            </div>
+            <div class="contact-detail">
+              <div class="contact-detail-icon"><i class="fa-solid fa-phone"></i></div>
+              <div class="contact-detail-text">
+                <strong>Phone</strong>
+                <a href="tel:+919760097089">+91 9760097089</a>
+              </div>
+            </div>
+            <div class="contact-detail">
+              <div class="contact-detail-icon"><i class="fa-solid fa-envelope"></i></div>
+              <div class="contact-detail-text">
+                <strong>Email</strong>
+                <a href="mailto:ishraygupta@gmail.com">ishraygupta@gmail.com</a>
+              </div>
+            </div>
+          </address>
+
+          <div class="social-links" aria-label="Social profiles">
+            <a href="https://www.linkedin.com/in/shray-gupta-672a92224/" class="social-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+              <i class="fa-brands fa-linkedin-in"></i>
+            </a>
+            <a href="https://github.com/SG17THEProgrammer" class="social-link" aria-label="GitHub" target="_blank" rel="noopener noreferrer">
+              <i class="fa-brands fa-github"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Right: Form -->
+        <div class="contact-form-wrapper">
+          <form id="contactForm" novalidate aria-label="Contact form">
+            <input type="hidden" name="access_key" value="e8fa7b2e-8a34-499e-b006-8bd583f75a46" />
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Full Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="John Doe"
+                  required
+                  autocomplete="name"
+                  aria-required="true"
+                />
+              </div>
+              <div class="form-group">
+                <label for="email">Email Address</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="john@example.com"
+                  required
+                  autocomplete="email"
+                  aria-required="true"
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="subject">Subject</label>
+              <input
+                type="text"
+                id="subject"
+                name="subject"
+                placeholder="Project inquiry, collaboration…"
+                required
+                aria-required="true"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea
+                id="message"
+                name="message"
+                rows="5"
+                placeholder="Tell me about your project or opportunity…"
+                required
+                aria-required="true"
+              ></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary submit-btn">
+              <i class="fa-solid fa-paper-plane"></i>
+              Send Message
+            </button>
+
+            <div id="formFeedback" class="form-feedback" role="alert" aria-live="polite"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════
+         FOOTER
+    ══════════════════════════════════════════════════ -->
+    <footer class="footer glass-panel" role="contentinfo">
+      <div class="footer-grid">
+        <!-- Brand -->
+        <div class="footer-brand">
+          <h3>Shray Gupta</h3>
+          <p>
+            Passionate Full Stack Developer specializing in MERN Stack development.
+            Building dynamic, responsive, and efficient web applications that make an impact.
+          </p>
+          <div class="social-links" style="margin-top:var(--space-4);" aria-label="Social links">
+            <a href="https://www.linkedin.com/in/shray-gupta-672a92224/" class="social-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+              <i class="fa-brands fa-linkedin-in"></i>
+            </a>
+            <a href="https://github.com/CoderSG17" class="social-link" aria-label="GitHub" target="_blank" rel="noopener noreferrer">
+              <i class="fa-brands fa-github"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="footer-nav" aria-label="Footer navigation">
+          <h4>Navigation</h4>
+          <ul role="list">
+            <li><a href="/">Home</a></li>
+            <li><a href="#aboutMe">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#achievements">Achievements</a></li>
+            <li><a href="#contactSection">Contact</a></li>
+          </ul>
+        </nav>
+
+        <!-- Contact -->
+        <div class="footer-contact">
+          <h4>Contact</h4>
+          <address>
+            <div class="footer-contact-item">
+              <i class="fa-solid fa-location-dot"></i>
+              <span>A-30 Pushpanjali Upavan,<br />Mathura, Uttar Pradesh</span>
+            </div>
+            <div class="footer-contact-item">
+              <i class="fa-solid fa-phone"></i>
+              <a href="tel:+919760097089">+91 9760097089</a>
+            </div>
+            <div class="footer-contact-item">
+              <i class="fa-solid fa-envelope"></i>
+              <a href="mailto:ishraygupta@gmail.com">ishraygupta@gmail.com</a>
+            </div>
+          </address>
+        </div>
       </div>
 
-      <div class="footer-center">
-
-        <div>
-          <i class="fa-solid fa-location-dot"></i>
-          <p><span>A-30 Pushpanjali Upavan</span> Mathura, Uttar Pradesh</p>
-        </div>
-
-        <div>
-          <i class="fa-solid fa-phone"></i>
-          <p>9760097089</p>
-        </div>
-
-        <div>
-          <i class="fa fa-envelope"></i>
-          <p><a href="mailto:ishraygupta@gmail.com">ishraygupta@gmail.com</a></p>
-        </div>
-
+      <!-- Copyright -->
+      <div class="footer-bottom">
+        <p>© <span id="year"></span> Shray Gupta. Made with <span aria-label="love">💌</span> and lots of coffee.</p>
+        <!-- <p>All rights reserved.</p> -->
       </div>
-
-      <div class="footer-right">
-
-        <p class="footer-company-about">
-          <span>About Me</span>
-          I am a passionate B.Tech Computer Science student at GLA University, specializing in MERN stack development. With a strong foundation in web development and a love for coding, I am dedicated to becoming a proficient software engineer and contributing to impactful projects. 
-        </p>
-
-        <div class="footer-icons">
-
-          <!-- <a href="#"><i class="fa-brands fa-square-facebook"></i></a> -->
-          <!-- <a href="#"><i class="fa-brands fa-square-x-twitter"></i></a> -->
-          <a href="https://www.linkedin.com/in/shray-gupta-672a92224/"><i class="fa-brands fa-linkedin"></i></a>
-          <a href="https://github.com/CoderSG17"><i class="fa-brands fa-square-github"></i></a>
-          <!-- <a href="#"><i class="fa-brands fa-square-instagram"></i></a> -->
-
-        </div>
-
-      </div>
-
     </footer>
 
-    <div class="scrollTop-style">
-      <i class="fa-solid fa-circle-up scroll-top icon1 " title="Go To Top"></i>       
-    </div>
-    
-  </div>
+  </div><!-- /portfolio-wrapper -->
 
+  <!-- ══════════════════════════════════════════════════
+       SCRIPTS
+  ══════════════════════════════════════════════════ -->
 
-  </main>
+  <!-- Typed.js -->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.10/typed.min.js"
+    integrity="sha512-hIlMpy2enepx9maXZF1gn0hsvPLerXoLHdb095CmRY5HG3bZfN7XPBZ14g+TUDH1aGgfLyPHmY9/zuU53smuMw=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+    defer
+  ></script>
 
-  <script src="index.js" type="module"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.10/typed.min.js" integrity="sha512-hIlMpy2enepx9maXZF1gn0hsvPLerXoLHdb095CmRY5HG3bZfN7XPBZ14g+TUDH1aGgfLyPHmY9/zuU53smuMw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-  <script src="https://smtpjs.com/v3/smtp.js"></script>
-  <script type="text/javascript"
-        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
-</script>
-<script type="text/javascript">
-   (function(){
-      emailjs.init({
-        publicKey: "uH7nyek3bNByTtVmC",
-      });
-   })();
-</script>
+  <!-- Swiper -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+
+  <!-- EmailJS -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
+    defer
+  ></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      if (typeof emailjs !== 'undefined') {
+        emailjs.init({ publicKey: 'uH7nyek3bNByTtVmC' });
+      }
+    });
+  </script>
+
+  <!-- Portfolio main module -->
+  <script src="js/main.js" type="module"></script>
+
+  <!-- Footer year -->
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
-
 </html>
