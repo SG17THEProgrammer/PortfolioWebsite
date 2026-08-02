@@ -114,6 +114,20 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
+html.dark .theme-toggle {
+  background: rgba(91, 106, 240, 0.25);
+  border-color: rgba(91, 106, 240, 0.5);
+  color: #ffffff;
+}
+
+html.dark .theme-toggle i {
+  color: #ffffff !important;
+}
+
+html.dark .hamburger span {
+  background: #bb7eed;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
@@ -270,7 +284,7 @@ a { text-decoration: none; color: inherit; }
   align-items: center;
   justify-content: space-between;
   padding: 0.75rem 1.5rem;
-  background: var(--surface-card);
+  background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(20px) saturate(1.8);
   -webkit-backdrop-filter: blur(20px) saturate(1.8);
   border: 1px solid var(--border);
@@ -336,11 +350,29 @@ a { text-decoration: none; color: inherit; }
   transition: all var(--duration-base) var(--ease);
   flex-shrink: 0;
 }
+.theme-toggle i {
+  color: inherit;
+  pointer-events: none;
+}
 .theme-toggle:hover {
   background: var(--accent);
   color: #fff;
   border-color: var(--accent);
   transform: rotate(15deg);
+}
+
+.dark .theme-toggle {
+  background: rgba(91, 106, 240, 0.2);
+  border-color: rgba(91, 106, 240, 0.4);
+  color: #ffffff;
+}
+
+.dark .theme-toggle i {
+  color: #ffffff;
+}
+
+.dark .navbar {
+  background: rgba(18, 18, 40, 0.92);
 }
 
 /* Hamburger */
@@ -1354,6 +1386,17 @@ a { text-decoration: none; color: inherit; }
 
 /* Tablet narrow (max 768px) */
 @media (max-width: 768px) {
+   .navbar {
+    background: #ffffff !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .dark .navbar {
+    background: #0f0f23 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
   .nav-links { display: none; }
   .hamburger { display: flex; }
 
@@ -1402,6 +1445,17 @@ a { text-decoration: none; color: inherit; }
 
 /* Mobile (max 480px) */
 @media (max-width: 480px) {
+   .navbar {
+    background: #ffffff !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .dark .navbar {
+    background: #0f0f23 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
   .portfolio-wrapper { padding: 0.5rem; }
   .navbar { padding: 0.6rem 1rem; border-radius: var(--radius-lg); }
   .hero-section, .about-section, .experience-section,
