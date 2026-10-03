@@ -6,6 +6,8 @@ import {
   EMAILJS_TEMPLATE_ID,
   EMAILJS_PUBLIC_KEY,
 } from './config.js';
+import { initProjects } from './projects.js';
+
 
 /* ── Firebase SDK (ESM) ────────────────────────────────────── */
 import { initializeApp }              from 'https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js';
@@ -100,10 +102,10 @@ function initTyped() {
   new Typed('.typing', {
     strings: [
       'Full Stack Developer',
-      'MERN Stack Enthusiast',
+      'MERN Stack Developer',
       'Technical Analyst',
       'Problem Solver',
-      'AI Enthusiast',
+      'AI Engineer',
       'Quick Learner',
     ],
     typeSpeed:  80,
@@ -190,6 +192,9 @@ contactForm?.addEventListener('submit', async (e) => {
 initRevealAnimations();
 initSkillBars();
 initScrollToTop();
+
+/* ── Dynamic Projects ─────────────────────────────────────── */
+initProjects();  
 
 /* ── EmailJS init (reads key from config.js) ──────────────── */
 window.addEventListener('DOMContentLoaded', () => {

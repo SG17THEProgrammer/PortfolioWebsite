@@ -2,3 +2,11 @@ portfolio.zip
 
 # Secret config — never commit real keys
 js/config.js
+
+node_modules
+.env
+
+# Local Netlify folder
+.netlify
+
+projects.txt

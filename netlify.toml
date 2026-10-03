@@ -1,0 +1,7 @@
+[build]
+  publish = "."          # your site root (folder with index.html)
+  functions = "netlify/functions"
+
+# Enable Netlify Blobs (required)
+[blobs]
+  enabled = true
