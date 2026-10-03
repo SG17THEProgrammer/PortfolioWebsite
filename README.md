@@ -1,4 +1,4 @@
-# Shray Gupta — Portfolio Website (Refactored)
+# Shray Gupta — Portfolio Website
 
 A fully modernized, responsive portfolio website rebuilt from a monolithic structure into a clean, maintainable, and scalable codebase.
 

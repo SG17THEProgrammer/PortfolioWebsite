@@ -1,1 +1,4 @@
 portfolio.zip
+
+# Secret config — never commit real keys
+js/config.js

@@ -1,26 +1,17 @@
-/**
- * main.js
- * Entry point — imports all modules and wires up global interactions.
- */
-
 import { initTheme, toggleTheme }                            from './darkmode.js';
 import { initRevealAnimations, initSkillBars, initScrollToTop } from './animations.js';
+import {
+  FIREBASE_CONFIG,
+  EMAILJS_SERVICE_ID,
+  EMAILJS_TEMPLATE_ID,
+  EMAILJS_PUBLIC_KEY,
+} from './config.js';
 
 /* ── Firebase SDK (ESM) ────────────────────────────────────── */
 import { initializeApp }              from 'https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js';
 import { getDatabase, ref, push, set } from 'https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js';
 
-const firebaseConfig = {
-  apiKey:            'AIzaSyA_3lYwtdxq8n7QsZv42aVXnG0a4yWMSWs',
-  authDomain:        'portfolio-website-58cdb.firebaseapp.com',
-  projectId:         'portfolio-website-58cdb',
-  storageBucket:     'portfolio-website-58cdb.appspot.com',
-  messagingSenderId: '239479879240',
-  appId:             '1:239479879240:web:23e224357f90c5153a4a7d',
-  measurementId:     'G-VF7S8981ZS',
-};
-
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(FIREBASE_CONFIG);
 const db  = getDatabase(app);
 
 /* ── Theme ─────────────────────────────────────────────────── */
@@ -48,12 +39,10 @@ function closeMobileNav() {
 hamburger?.addEventListener('click', openMobileNav);
 mobileClose?.addEventListener('click', closeMobileNav);
 
-// Close when any link in mobile nav is clicked
 mobileNav?.querySelectorAll('a').forEach((a) => {
   a.addEventListener('click', closeMobileNav);
 });
 
-// Close on backdrop click
 mobileNav?.addEventListener('click', (e) => {
   if (e.target === mobileNav) closeMobileNav();
 });
@@ -98,7 +87,6 @@ function initSwiper() {
 }
 
 if (document.querySelector('.mySwiper')) {
-  // Swiper is loaded via CDN before this module runs
   if (typeof Swiper !== 'undefined') {
     initSwiper();
   } else {
@@ -176,9 +164,8 @@ contactForm?.addEventListener('submit', async (e) => {
     const newUserRef = push(userRef);
     await set(newUserRef, { ...formData, timestamp: Date.now() });
 
-    // EmailJS
     if (typeof emailjs !== 'undefined') {
-      await emailjs.send('service_m04mwz6', 'template_h8vamse', {
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
         name:    formData.name,
         email:   formData.email,
         subject: formData.subject,
@@ -203,3 +190,10 @@ contactForm?.addEventListener('submit', async (e) => {
 initRevealAnimations();
 initSkillBars();
 initScrollToTop();
+
+/* ── EmailJS init (reads key from config.js) ──────────────── */
+window.addEventListener('DOMContentLoaded', () => {
+  if (typeof emailjs !== 'undefined') {
+    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+  }
+});

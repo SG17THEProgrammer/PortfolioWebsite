@@ -582,8 +582,9 @@ a { text-decoration: none; color: inherit; }
   padding-top: var(--space-4);
   border-top: 1px solid var(--border);
 }
-.hero-stat {}
+
 .hero-stat strong {
+  /* border: 1px solid red; */
   display: block;
   font-family: var(--font-display);
   font-size: var(--fs-2xl);
@@ -592,6 +593,8 @@ a { text-decoration: none; color: inherit; }
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  transform: scaleY(1.10);
+  transform-origin: center;
 }
 .hero-stat span {
   font-size: var(--fs-xs);
@@ -675,6 +678,8 @@ a { text-decoration: none; color: inherit; }
 /* Skills card */
 .skills-card {
   padding: clamp(1.25rem, 3vw, 2rem);
+  /* border: 1px solid red; */
+  height: fit-content;
 }
 
 .skills-icons-grid {
@@ -892,6 +897,28 @@ a { text-decoration: none; color: inherit; }
   color: var(--text-secondary);
   font-weight: 500;
 }
+.comp-description {
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-top: var(--space-2);
+  border-top: 2px solid var(--border);
+  padding-top: var(--space-2);
+}
+
+.comp-description p {
+  position: relative;
+  padding-left: 24px;
+}
+
+.comp-description p::before {
+  content: "✦";
+  position: absolute;
+  left: 0;
+  color: #8b5cf6;
+  font-size: 14px;
+}
+
 
 .exp-projects-grid {
   display: grid;
