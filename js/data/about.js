@@ -1,3 +1,7 @@
+import {
+  GITHUB_USERNAME
+} from '../config.js';
+
 export const highlights = [
   { icon: 'fa-solid fa-graduation-cap', text: 'B.Tech CSE — GLA University' },
   { icon: 'fa-brands fa-react', text: 'AI Engineer' },
@@ -24,7 +28,7 @@ export const socialLinks = [
     label: 'LinkedIn',
   },
   {
-    href: `https://github.com/${process.env.GITHUB_USERNAME}`,
+    href: `https://github.com/${GITHUB_USERNAME}`,
     icon: 'fa-brands fa-github',
     label: 'GitHub',
   },
