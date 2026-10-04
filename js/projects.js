@@ -348,6 +348,10 @@ function openEditModal(proj, onSave, isNew = false) {
 function setProjectCount(n) {
   const el = document.querySelector('.hero-stat-projects strong');
   if (el) el.textContent = (n-1) + '+';
+  else {
+    el.textContent = '⏳'
+    el.style.textAlign = 'center'
+  }
 }
 
 /* ── Visitor view ──────────────────────────────────────────── */
