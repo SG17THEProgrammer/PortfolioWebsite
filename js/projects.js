@@ -347,11 +347,7 @@ function openEditModal(proj, onSave, isNew = false) {
 /* ── Hero project count ────────────────────────────────────── */
 function setProjectCount(n) {
   const el = document.querySelector('.hero-stat-projects strong');
-  if (el) el.textContent = (n-1) + '+';
-  else {
-    el.textContent = '⏳'
-    el.style.textAlign = 'center'
-  }
+  if (el) el.textContent =  n > 1 ? (n-1) + '+' : n ;
 }
 
 /* ── Visitor view ──────────────────────────────────────────── */

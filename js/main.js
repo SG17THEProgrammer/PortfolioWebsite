@@ -26,6 +26,14 @@ if (githubLink) {
   githubLink.href = `https://github.com/${GITHUB_USERNAME}`;
 }
 
+//loading logo until the projects are being fetched 
+const el = document.querySelector('.hero-stat-projects strong');
+if(el){
+  el.textContent='⏳'
+  el.style.textAlign='center'
+}
+
+
 /* ── Theme ─────────────────────────────────────────────────── */
 initTheme();
 
