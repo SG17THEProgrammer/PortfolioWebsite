@@ -19,7 +19,11 @@ export const EMAILJS_PUBLIC_KEY  = '${process.env.EMAILJS_PUBLIC_KEY || ''}';
 export const WEB3FORMS_ACCESS_KEY = '${process.env.WEB3FORMS_ACCESS_KEY || ''}';
 
 export const GITHUB_USERNAME = '${process.env.GITHUB_USERNAME || ''}';
+
+export const UNSPLASH_ACCESS_KEY = '${process.env.UNSPLASH_ACCESS_KEY || ''}';
+
 `;
+
 
 if (!fs.existsSync('./js')) {
   fs.mkdirSync('./js');

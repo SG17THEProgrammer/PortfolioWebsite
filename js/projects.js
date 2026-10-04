@@ -7,6 +7,7 @@
  *  3. Admin panel moves projects section full-width below skills grid
  *  4. Horizontal card layout matching the "Notes Taking App" style from screenshot
  */
+import { UNSPLASH_ACCESS_KEY } from './config.js';
 
 /* ── Admin secret lives ONLY in the URL param — never stored ── */
 const getSecret = () => new URLSearchParams(window.location.search).get('admin');
@@ -58,7 +59,7 @@ const NAME_ICON_MAP = [
 
   // 3. Generic tech terms
   { keys: ['portfolio', 'website', 'personal', 'web'], icon: `${ICONS8}/domain.png` },
-  { keys: ['automat', 'workflow', 'automation'], icon: `${ICONS8}/system-task.png` },
+  { keys: ['automate', 'workflow', 'automation'], icon: `${ICONS8}/system-task.png` },
   { keys: ['interface', 'dashboard', 'ui', 'admin'], icon: `${ICONS8}/dashboard-layout.png` },
   { keys: ['api', 'backend', 'server'], icon: `${ICONS8}/server.png` },
   { keys: ['generator', 'tool', 'util'], icon: `${ICONS8}/maintenance.png` },
@@ -116,12 +117,12 @@ function makeTechBadges(language, topics = []) {
 ────────────────────────────────────────────────────────────── */
 /* ── 2. Update renderCard (Show Less & Logo Fix) ─────────────── */
 function renderCard(proj, index, { editable = false } = {}) {
+  const isCustomImage = !!proj.customLogo;
   const iconUrl = getProjectIcon(proj); // Now passes the whole object
   const grad = gradientFallback(index, proj.name);
 
   const iconHtml = iconUrl
-    ? `<img src="${iconUrl}" alt="" class="proj-card-icon" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-       <div class="proj-card-icon-grad" style="display:none;background:linear-gradient(135deg,${grad.c1},${grad.c2})">
+    ? `<img src="${iconUrl}" alt="" class="${isCustomImage ? 'proj-card-icon-custom' : 'proj-card-icon'}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" /><div class="proj-card-icon-grad" style="display:none;background:linear-gradient(135deg,${grad.c1},${grad.c2})">
          <span>${grad.initials}</span>
        </div>`
     : `<div class="proj-card-icon-grad" style="background:linear-gradient(135deg,${grad.c1},${grad.c2})">
@@ -202,10 +203,20 @@ function renderCard(proj, index, { editable = false } = {}) {
   return card;
 }
 
-/* ── Edit Modal ────────────────────────────────────────────── */
-/* ── 3. Update Edit Modal to Include Logo Override ───────────── */
+/* ── Edit Modal with Unsplash Integration ── */
 function openEditModal(proj, onSave, isNew = false) {
   document.getElementById('proj-edit-modal')?.remove();
+
+  // Deduplicate tech stack first
+  const rawTech = [proj.language, ...(proj.topics || [])].filter(Boolean);
+  const uniqueTech = [];
+  const seen = new Set();
+  for (const tag of rawTech) {
+    if (!seen.has(tag.toLowerCase())) {
+      seen.add(tag.toLowerCase());
+      uniqueTech.push(tag);
+    }
+  }
 
   const overlay = document.createElement('div');
   overlay.id = 'proj-edit-modal';
@@ -221,11 +232,18 @@ function openEditModal(proj, onSave, isNew = false) {
         <label>Description
           <textarea id="pm-desc" rows="3">${proj.description || ''}</textarea>
         </label>
-        <label>Custom Logo Image URL (optional)
-          <input id="pm-logo" type="url" value="${proj.customLogo || ''}" placeholder="https://example.com/logo.png" />
+        <label>Project Image / Custom Logo URL
+          <div style="display: flex; gap: 8px;">
+            <input id="pm-logo" type="url" value="${proj.customLogo || ''}" placeholder="Leave blank to use default icon" style="flex: 1;" />
+            <button type="button" class="btn btn-outline" id="pm-unsplash-btn" title="Search Unsplash" style="padding: 0 15px;">
+              <i class="fa-solid fa-image"></i> Search
+            </button>
+          </div>
         </label>
+        <div id="unsplash-results" style="display: flex; gap: 8px; overflow-x: auto; margin-top: 5px; display: none;"></div>
+        
         <label>Tech Stack (comma-separated)
-          <input id="pm-tech" type="text" value="${[proj.language, ...(proj.topics || [])].filter(Boolean).join(', ')}" />
+          <input id="pm-tech" type="text" value="${uniqueTech.join(', ')}" />
         </label>
         <label>GitHub URL
           <input id="pm-github" type="url" value="${proj.html_url || ''}" />
@@ -245,21 +263,80 @@ function openEditModal(proj, onSave, isNew = false) {
 
   document.body.appendChild(overlay);
 
+  /* Unsplash Logic */
+  const unsplashBtn = overlay.querySelector('#pm-unsplash-btn');
+  const unsplashResults = overlay.querySelector('#unsplash-results');
+  const logoInput = overlay.querySelector('#pm-logo');
+  const nameInput = overlay.querySelector('#pm-name');
+
+  unsplashBtn.onclick = async () => {
+    const query = nameInput.value.trim() || proj.name;
+    unsplashResults.style.display = 'flex';
+    unsplashResults.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Fetching...';
+    
+    try {
+      if (!UNSPLASH_ACCESS_KEY) throw new Error("API key missing.");
+
+      const res = await fetch(`https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&per_page=5&orientation=landscape`, {
+        headers: { Authorization: `Client-ID ${UNSPLASH_ACCESS_KEY}` }
+      });
+
+      if (!res.ok) {
+        if (res.status === 403 || res.status === 429) {
+          throw new Error("Rate limit exceeded. Falling back to default Icons.");
+        }
+        throw new Error("Unsplash fetch failed.");
+      }
+
+      const data = await res.json();
+      if (!data.results.length) throw new Error("No images found.");
+
+      unsplashResults.innerHTML = data.results.map(img => `
+        <img src="${img.urls.small}" data-url="${img.urls.regular}" class="unsplash-thumb" 
+             style="height: 60px; border-radius: 6px; cursor: pointer; border: 2px solid transparent; transition: border 0.2s;" 
+             title="Photo by ${img.user.name}" />
+      `).join('');
+
+      // Add click listeners to select an image
+      unsplashResults.querySelectorAll('.unsplash-thumb').forEach(imgEl => {
+        imgEl.onclick = () => {
+          logoInput.value = imgEl.dataset.url;
+          unsplashResults.style.display = 'none'; // Hide picker after selection
+        };
+      });
+
+    } catch (err) {
+      unsplashResults.innerHTML = `<span style="color: #ef4444; font-size: 0.85rem;">${err.message}</span>`;
+      setTimeout(() => { unsplashResults.style.display = 'none'; }, 4000);
+    }
+  };
+
+  /* Saving & Closing */
   const close = () => overlay.remove();
   overlay.querySelector('.proj-modal-close').onclick = close;
   overlay.querySelector('.proj-modal-cancel').onclick = close;
 
   overlay.querySelector('.proj-modal-save').onclick = () => {
     const techRaw = overlay.querySelector('#pm-tech').value;
-    const techArr = [...new Set(techRaw.split(',').map(s => s.trim()).filter(Boolean))];
+    const techArr = [];
+    const seenSave = new Set();
+    
+    techRaw.split(',').forEach(s => {
+      const tag = s.trim();
+      if (tag && !seenSave.has(tag.toLowerCase())) {
+        seenSave.add(tag.toLowerCase());
+        techArr.push(tag);
+      }
+    });
+
     const updated = {
       ...proj,
-      displayName: overlay.querySelector('#pm-name').value.trim() || proj.name || "Custom Project",
+      displayName: nameInput.value.trim() || proj.displayName || proj.name || 'Custom Project',
       description: overlay.querySelector('#pm-desc').value.trim(),
-      customLogo: overlay.querySelector('#pm-logo').value.trim(), // Save custom logo
-      language: techArr[0] || proj.language,
-      topics: techArr,
-      html_url: overlay.querySelector('#pm-github').value.trim() ,
+      customLogo: logoInput.value.trim(),
+      language: techArr[0] || '',
+      topics: techArr.slice(1),
+      html_url: overlay.querySelector('#pm-github').value.trim(),
       homepage: overlay.querySelector('#pm-live').value.trim(),
     };
     onSave(updated);
@@ -270,7 +347,7 @@ function openEditModal(proj, onSave, isNew = false) {
 /* ── Hero project count ────────────────────────────────────── */
 function setProjectCount(n) {
   const el = document.querySelector('.hero-stat-projects strong');
-  if (el) el.textContent = n + '+';
+  if (el) el.textContent = (n-1) + '+';
 }
 
 /* ── Visitor view ──────────────────────────────────────────── */
@@ -313,15 +390,11 @@ function expandProjectsSectionForAdmin() {
   if (skillsCard) skillsCard.style.gridColumn = '1 / -1';
 }
 
-/* ──────────────────────────────────────────────────────────────
-   FIX 2 — Live preview (no page refresh needed)
-   selectedMap is the single source of truth; every mutation
-   calls renderPreview() which diffs into container.
-────────────────────────────────────────────────────────────── */
+/* ── FIX 2 & 4 — Consolidated Live Preview & Admin Controls ── */
 async function renderAdminView(section, container) {
   const secret = getSecret();
 
-  /* ── Admin panel shell ── */
+  /* ── Admin panel shell (Removed redundant selected list, added Delete All) ── */
   const panel = document.createElement('div');
   panel.className = 'admin-panel glass-panel';
   panel.innerHTML = `
@@ -338,6 +411,9 @@ async function renderAdminView(section, container) {
       <button class="btn btn-outline admin-add-manual-btn" style="margin-right: auto; margin-left: 10px;">
         <i class="fa-solid fa-plus"></i> Add Custom Project
       </button>
+      <button class="btn btn-outline admin-delete-all-btn" style="margin-right: 10px; color: #ef4444; border-color: #ef4444;">
+        <i class="fa-solid fa-trash-can"></i> Delete All
+      </button>
       <button class="btn btn-primary admin-save-btn" disabled>
         <i class="fa-solid fa-cloud-arrow-up"></i> Publish Changes
       </button>
@@ -347,20 +423,14 @@ async function renderAdminView(section, container) {
       <div class="admin-repos-loading"><i class="fa-solid fa-spinner fa-spin"></i> Fetching your GitHub repos…</div>
       <div class="admin-repo-grid" style="display:none" role="list"></div>
     </div>
-
-    <div class="admin-selected-wrap" style="display:none">
-      <h4 class="admin-section-label">Selected Projects</h4>
-      <div class="admin-selected-list" role="list"></div>
-    </div>
   `;
 
   section.querySelector('.section-title').after(panel);
 
   /* ── State ── */
   let allRepos = [];
-  let selectedMap = new Map();   // name → project object
+  let selectedMap = new Map();
 
-  // Seed from already-published projects
   try {
     const saved = await apiGet('/api/get-projects');
     saved.forEach(p => selectedMap.set(p.name, p));
@@ -369,44 +439,39 @@ async function renderAdminView(section, container) {
   const searchEl = panel.querySelector('.admin-search');
   const repoGrid = panel.querySelector('.admin-repo-grid');
   const repoLoading = panel.querySelector('.admin-repos-loading');
-  const selectedWrap = panel.querySelector('.admin-selected-wrap');
-  const selectedList = panel.querySelector('.admin-selected-list');
   const saveBtn = panel.querySelector('.admin-save-btn');
-
   const addManualBtn = panel.querySelector('.admin-add-manual-btn');
-
-  addManualBtn.addEventListener('click', () => {
-    // Create an empty project shell with a unique ID
-    const newProj = {
-      name: `custom-${Date.now()}`,
-      displayName: '',
-      description: '',
-      customLogo: '',
-      language: '',
-      topics: [],
-      html_url: '',
-      homepage: '',
-      isManual: true // Flag to identify it in the UI
-    };
-
-    openEditModal(newProj, async (updated) => {
-      // Ensure it has at least a name before saving
-      if (!updated.displayName.trim()) {
-        updated.displayName = 'Untitled Custom Project';
-      }
-      selectedMap.set(updated.name, updated);
-      markDirty();
-      renderSelectedList();
-      renderPreview();
-
-      await publishToBlob(); // Instantly sync creation to blob
-    }, true); // Pass true to indicate this is a NEW project
-  });
+  const deleteAllBtn = panel.querySelector('.admin-delete-all-btn');
 
   let dirty = false;
   const markDirty = () => { dirty = true; saveBtn.disabled = false; };
 
-  /* ── Fetch all repos ── */
+  /* ── Add Custom Project ── */
+  addManualBtn.addEventListener('click', () => {
+    const newProj = {
+      name: `custom-${Date.now()}`,
+      displayName: '', description: '', customLogo: '', language: '', topics: [], html_url: '', homepage: '', isManual: true
+    };
+    openEditModal(newProj, async (updated) => {
+      if (!updated.displayName.trim()) updated.displayName = 'Untitled Custom Project';
+      selectedMap.set(updated.name, updated);
+      markDirty();
+      renderPreview();
+      await publishToBlob(); 
+    }, true);
+  });
+
+  /* ── Delete All Projects ── */
+  deleteAllBtn.addEventListener('click', async () => {
+    if (!confirm("Are you sure you want to delete ALL projects?")) return;
+    selectedMap.clear();
+    markDirty();
+    renderRepoChips(searchEl.value);
+    renderPreview();
+    await publishToBlob();
+  });
+
+  /* ── Fetch & Render Repos ── */
   try {
     allRepos = await apiPost('/api/list-repos', { secret });
     repoLoading.style.display = 'none';
@@ -416,7 +481,6 @@ async function renderAdminView(section, container) {
     return;
   }
 
-  /* ── Repo chips ── */
   function renderRepoChips(filter = '') {
     repoGrid.innerHTML = '';
     const fl = filter.toLowerCase();
@@ -440,35 +504,25 @@ async function renderAdminView(section, container) {
           <span class="admin-chip-lang">${r.language || '—'}</span>
         </div>
         <button class="admin-chip-btn" data-repo="${r.name}">
-          ${isOn
-          ? '<i class="fa-solid fa-circle-check"></i>'
-          : '<i class="fa-solid fa-circle-plus"></i>'}
+          ${isOn ? '<i class="fa-solid fa-circle-check"></i>' : '<i class="fa-solid fa-circle-plus"></i>'}
         </button>
       `;
-
       chip.querySelector('.admin-chip-btn').addEventListener('click', () => toggleRepo(r));
       repoGrid.appendChild(chip);
     });
   }
 
-  /* ── Toggle repo ── */
   async function toggleRepo(r) {
     if (selectedMap.has(r.name)) {
       selectedMap.delete(r.name);
       markDirty();
       renderRepoChips(searchEl.value);
-      renderSelectedList();
-      renderPreview();   // FIX 2 — live update
-
+      renderPreview(); 
       await publishToBlob();
       return;
     }
-
     const chip = repoGrid.querySelector(`[data-repo="${r.name}"]`);
-    if (chip) {
-      chip.classList.add('admin-chip--loading');
-      chip.querySelector('button').innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
-    }
+    if (chip) chip.querySelector('button').innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
 
     try {
       const proj = await apiPost('/api/fetch-repo', { secret, repoName: r.name });
@@ -478,143 +532,74 @@ async function renderAdminView(section, container) {
       alert('Could not fetch repo: ' + e.message);
     } finally {
       renderRepoChips(searchEl.value);
-      renderSelectedList();
-      renderPreview();   // FIX 2 — live update
+      renderPreview(); 
     }
   }
 
-  /* ── Selected list ── */
-  function renderSelectedList() {
+  /* ── Unified Drag, Drop & Edit Preview ── */
+  function renderPreview() {
+    container.innerHTML = '';
     const arr = [...selectedMap.values()];
-    if (!arr.length) { selectedWrap.style.display = 'none'; return; }
 
-    selectedWrap.style.display = 'block';
-    selectedList.innerHTML = '';
+    if (!arr.length) {
+      container.innerHTML = `<div class="projects-empty"><i class="fa-brands fa-github"></i><p>Select repos above to preview.</p></div>`;
+      setProjectCount(0);
+      return;
+    }
 
     let dragStartIndex = null;
 
-    arr.forEach((proj, index) => {
-      const row = document.createElement('div');
-      row.className = 'admin-sel-row';
-      row.draggable = true; // Enables drag & drop
-      row.dataset.index = index;
+    arr.forEach((p, index) => {
+      const card = renderCard(p, index, { editable: true });
+      
+      // Make entire card draggable
+      card.draggable = true;
+      card.style.cursor = 'grab';
 
-      // Add visual grip cue
-      row.style.cursor = 'grab';
-
-      const iconUrl = getLangIcon(proj.language);
-      const iconHtml = iconUrl
-        ? `<img src="${iconUrl}" class="admin-sel-icon" alt="" />`
-        : `<i class="fa-brands fa-github" style="font-size:1.4rem;color:var(--accent)"></i>`;
-
-      const manualBadge = proj.isManual
-        ? `<span style="background:var(--accent);color:#fff;font-size:0.6rem;padding:2px 6px;border-radius:4px;margin-left:8px;vertical-align:middle;">Custom</span>`
-        : '';
-
-      row.innerHTML = `
-      <div style="margin-right: 10px; color: #555;"><i class="fa-solid fa-grip-vertical"></i></div>
-      ${iconHtml}
-      <div class="admin-sel-info">
-        <strong>${proj.displayName || proj.name}${manualBadge}</strong>
-        <span>${(proj.description || '').slice(0, 80)}…</span>
-      </div>
-      <div class="admin-sel-actions">
-        <button class="admin-sel-edit" title="Edit"><i class="fa-solid fa-pen"></i></button>
-        <button class="admin-sel-remove" title="Remove"><i class="fa-solid fa-trash"></i></button>
-      </div>
-    `;
-
-      // --- DRAG AND DROP EVENTS ---
-      row.addEventListener('dragstart', (e) => {
+      card.addEventListener('dragstart', (e) => {
         dragStartIndex = index;
         e.dataTransfer.effectAllowed = 'move';
-        row.style.opacity = '0.5';
+        card.style.opacity = '0.5';
       });
 
-      row.addEventListener('dragover', (e) => {
-        e.preventDefault(); // Necessary to allow dropping
-        row.style.borderTop = '2px solid #8b5cf6';
+      card.addEventListener('dragover', (e) => {
+        e.preventDefault(); 
+        card.style.borderTop = '4px solid var(--accent)';
       });
 
-      row.addEventListener('dragleave', () => {
-        row.style.borderTop = '';
+      card.addEventListener('dragleave', () => {
+        card.style.borderTop = '';
       });
 
-      row.addEventListener('drop', async (e) => {
+      card.addEventListener('drop', async (e) => {
         e.preventDefault();
-        row.style.borderTop = '';
+        card.style.borderTop = '';
         const dragEndIndex = index;
 
         if (dragStartIndex !== null && dragStartIndex !== dragEndIndex) {
-          // Reconstruct map in new order
           const entries = [...selectedMap.entries()];
           const [movedItem] = entries.splice(dragStartIndex, 1);
           entries.splice(dragEndIndex, 0, movedItem);
 
           selectedMap.clear();
           entries.forEach(([k, v]) => selectedMap.set(k, v));
-
+          
           markDirty();
-          renderSelectedList();
           renderPreview();
-
           await publishToBlob();
         }
       });
 
-      row.addEventListener('dragend', () => {
-        row.style.opacity = '1';
+      card.addEventListener('dragend', () => {
+        card.style.opacity = '1';
       });
-      // ----------------------------
 
-      row.querySelector('.admin-sel-edit').onclick = () => {
-        openEditModal(proj, async (updated) => {
-          selectedMap.set(proj.name, updated);
-          markDirty();
-          renderSelectedList();
-          renderPreview();
-
-          await publishToBlob();
-        });
-      };
-
-      row.querySelector('.admin-sel-remove').onclick = async () => {
-        selectedMap.delete(proj.name);
-        markDirty();
-        renderRepoChips(searchEl.value);
-        renderSelectedList();
-        renderPreview();
-
-        await publishToBlob();
-      };
-
-      selectedList.appendChild(row);
-    });
-  }
-
-  /* ── FIX 2 — Live preview, no page refresh ── */
-  function renderPreview() {
-    container.innerHTML = '';
-    const arr = [...selectedMap.values()];
-
-    if (!arr.length) {
-      container.innerHTML = `<div class="projects-empty">
-        <i class="fa-brands fa-github"></i><p>Select repos above to preview.</p>
-      </div>`;
-      setProjectCount(0);
-      return;
-    }
-
-    arr.forEach((p, i) => {
-      const card = renderCard(p, i, { editable: true });
-
+      // Actions
       card.querySelector('.proj-edit-btn')?.addEventListener('click', () => {
         openEditModal(p, async (updated) => {
           selectedMap.set(p.name, updated);
           markDirty();
-          renderSelectedList();
           renderPreview();
-
           await publishToBlob();
         });
       });
@@ -623,9 +608,7 @@ async function renderAdminView(section, container) {
         selectedMap.delete(p.name);
         markDirty();
         renderRepoChips(searchEl.value);
-        renderSelectedList();
         renderPreview();
-
         await publishToBlob();
       });
 
@@ -635,37 +618,12 @@ async function renderAdminView(section, container) {
     setProjectCount(arr.length);
   }
 
-  /* ── Publish ── */
-  saveBtn.addEventListener('click', async () => {
-    saveBtn.disabled = true;
-    saveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Publishing…';
-    try {
-      await apiPost('/api/save-projects', {
-        secret,
-        projects: [...selectedMap.values()],
-      });
-      dirty = false;
-      saveBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> Published!';
-      setTimeout(() => {
-        saveBtn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Publish Changes';
-        saveBtn.disabled = false;
-      }, 3000);
-    } catch (e) {
-      alert('Publish failed: ' + e.message);
-      saveBtn.disabled = false;
-      saveBtn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Publish Changes';
-    }
-  });
-
-  /* ── Publish / Sync Helper ── */
+  /* ── Publish Helper ── */
   async function publishToBlob() {
     saveBtn.disabled = true;
     saveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Publishing…';
     try {
-      await apiPost('/api/save-projects', {
-        secret,
-        projects: [...selectedMap.values()],
-      });
+      await apiPost('/api/save-projects', { secret, projects: [...selectedMap.values()] });
       dirty = false;
       saveBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> Published!';
       setTimeout(() => {
@@ -680,15 +638,12 @@ async function renderAdminView(section, container) {
   }
 
   saveBtn.addEventListener('click', publishToBlob);
-
-  /* ── Search ── */
   searchEl.addEventListener('input', () => renderRepoChips(searchEl.value));
 
-  /* ── Initial render ── */
   renderRepoChips();
-  renderSelectedList();
   renderPreview();
 }
+
 
 /* ── Bootstrap ─────────────────────────────────────────────── */
 export async function initProjects() {
