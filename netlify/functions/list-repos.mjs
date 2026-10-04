@@ -4,7 +4,7 @@
  * Returns all public repos for GITHUB_USERNAME — admin only.
  */
 
-const GITHUB_USERNAME = 'SG17THEProgrammer';
+const GITHUB_USERNAME = process.env.GITHUB_USERNAME;
 const ADMIN_SECRET    = process.env.ADMIN_SECRET;
 
 export default async (req) => {

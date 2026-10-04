@@ -8,7 +8,7 @@
  * 4. Returns { name, description, language, topics, html_url, homepage }
  */
 
-const GITHUB_USERNAME = 'SG17THEProgrammer';
+const GITHUB_USERNAME = process.env.GITHUB_USERNAME;
 const GROQ_API_KEY    = process.env.GROQ_API_KEY;
 const ADMIN_SECRET    = process.env.ADMIN_SECRET;
 
