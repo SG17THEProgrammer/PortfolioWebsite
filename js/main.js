@@ -20,6 +20,12 @@ const db  = getDatabase(app);
 //populate all data-driven sections first
 renderAll();
 
+// Populate GITHUB_USERNAME in index.html
+const githubLink = document.getElementById("github-link");
+if (githubLink) {
+  githubLink.href = `https://github.com/${GITHUB_USERNAME}`;
+}
+
 /* ── Theme ─────────────────────────────────────────────────── */
 initTheme();
 
@@ -207,7 +213,5 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// Populate GITHUB_USERNAME in index.html
 
-document.getElementById("github-link").href = `https://github.com/${GITHUB_USERNAME}`;
 

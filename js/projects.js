@@ -148,7 +148,7 @@ function renderCard(proj, index, { editable = false } = {}) {
     `;
   }
 
-  const techArray = [proj.language, ...(proj.topics || [])].filter(Boolean).slice(0, 4);
+  const techArray = [...new Set([proj.language, ...(proj.topics || [])].filter(Boolean))];
   const techHtml = techArray.length > 0 ? techArray.join(' • ') : '';
 
   card.innerHTML = `
@@ -251,7 +251,7 @@ function openEditModal(proj, onSave, isNew = false) {
 
   overlay.querySelector('.proj-modal-save').onclick = () => {
     const techRaw = overlay.querySelector('#pm-tech').value;
-    const techArr = techRaw.split(',').map(s => s.trim()).filter(Boolean);
+    const techArr = [...new Set(techRaw.split(',').map(s => s.trim()).filter(Boolean))];
     const updated = {
       ...proj,
       displayName: overlay.querySelector('#pm-name').value.trim() || proj.name || "Custom Project",

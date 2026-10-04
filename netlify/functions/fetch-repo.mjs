@@ -9,8 +9,8 @@
  */
 
 const GITHUB_USERNAME = process.env.GITHUB_USERNAME;
-const GROQ_API_KEY    = process.env.GROQ_API_KEY;
-const ADMIN_SECRET    = process.env.ADMIN_SECRET;
+const GROQ_API_KEY = process.env.GROQ_API_KEY;
+const ADMIN_SECRET = process.env.ADMIN_SECRET;
 
 async function fetchReadme(repoName) {
   try {
@@ -33,7 +33,7 @@ async function groqSummarise(repoName, repoDesc, readmeText) {
     readmeText ? `README (first 1200 chars):\n${readmeText.slice(0, 1500)}` : '',
   ].filter(Boolean).join('\n\n');
 
-  if (!context) return repoDesc || 'No description available.';
+  if (!context) return { description: repoDesc || 'No description available.', topics: [] };
 
   const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
@@ -43,19 +43,28 @@ async function groqSummarise(repoName, repoDesc, readmeText) {
     },
     body: JSON.stringify({
       model: 'openai/gpt-oss-120b',
-    //   max_tokens: 80,
+      //   max_tokens: 80,
       temperature: 0.4,
       messages: [
         {
           role: 'system',
-          content:
-            'You write crisp, one or two sentence project descriptions for a developer portfolio. ' +
-            'Be specific about what the project does. No filler phrases like "This project..." ' +
-            'or "A web app that...". Start with a strong verb or noun. Keep it crisp. Anyone reading it should know about it just by reading. No long sentences or essays',
+          content: `You are a professional portfolio builder. Your job is to write crisp, one or two sentence project descriptions for a developer portfolio. \
+Be specific about what the project does. No filler phrases like "This project..." or "A web app that...". \
+Start with a strong verb or noun. Keep it crisp. Anyone reading it should know about it just by reading. \
+It should have a positive impact on anyone reading it. No long sentences or essays.
+
+Return this exact JSON shape:
+{
+  "description": "one or two sentence project description, crisp and specific",
+  "topics": ["tech1", "tech2", "tech3", "tech4"]
+}
+
+For topics: extract actual technologies, frameworks, libraries used. Max top 5 tags.`
+
         },
         {
           role: 'user',
-          content: `Project: ${repoName}\n\n${context}\n\nWrite the one or two sentence description:`,
+          content: `Project: ${repoName}\n\n${context}`,
         },
       ],
     }),
@@ -63,11 +72,22 @@ async function groqSummarise(repoName, repoDesc, readmeText) {
 
   if (!res.ok) {
     console.error('Groq error', res.status, await res.text());
-    return repoDesc || 'No description available.';
+    return { description: repoDesc || 'No description available.', topics: [] };
   }
 
   const data = await res.json();
-  return data.choices?.[0]?.message?.content?.trim() ?? repoDesc ?? 'No description available.';
+  const raw = data.choices?.[0]?.message?.content?.trim() ?? '{}';
+
+  try {
+    const parsed = JSON.parse(raw);
+    return {
+      description: parsed.description ?? repoDesc ?? 'No description available.',
+      topics: Array.isArray(parsed.topics) ? parsed.topics : [],
+    };
+  } catch {
+    // if AI didn't return valid JSON, fall back
+    return { description: raw, topics: [] };
+  }
 }
 
 export default async (req) => {
@@ -100,21 +120,31 @@ export default async (req) => {
   // 2. README
   const readme = await fetchReadme(repoName);
 
-  // 3. AI description
-  const description = GROQ_API_KEY
-    ? await groqSummarise(repoName, repo.description, readme)
-    : (repo.description || 'No description available.');
+  // 3. AI description + topics
+  let description = repoDesc || 'No description available.';
+  let aiTopics = [];
+
+  if (GROQ_API_KEY) {
+    const result = await groqSummarise(repoName, repo.description, readme);
+    description = result.description;
+    aiTopics = result.topics;
+  } else {
+    description = repo.description || 'No description available.';
+  }
+
+  // merge GitHub topics + AI-detected topics, deduplicate
+  const mergedTopics = [...new Set([...(repo.topics ?? []), ...aiTopics])];
 
   return Response.json({
-    name:        repo.name,
+    name: repo.name,
     displayName: repo.name.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
     description,
-    language:    repo.language ?? '',
-    topics:      repo.topics  ?? [],
-    html_url:    repo.html_url,
-    homepage:    repo.homepage ?? '',
-    stars:       repo.stargazers_count ?? 0,
-    updatedAt:   repo.updated_at,
+    language: repo.language ?? '',
+    topics: mergedTopics,
+    html_url: repo.html_url,
+    homepage: repo.homepage ?? '',
+    stars: repo.stargazers_count ?? 0,
+    updatedAt: repo.updated_at,
   });
 };
 

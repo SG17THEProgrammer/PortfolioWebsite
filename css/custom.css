@@ -753,7 +753,7 @@ a { text-decoration: none; color: inherit; }
 .projects-card {
   padding: clamp(1.25rem, 3vw, 2rem);
   /* overflow-y:scroll; */
-  border: 1px solid red;
+  /* border: 1px solid red; */
   margin-bottom: var(--space-6);
 }
 
