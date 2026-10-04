@@ -7,7 +7,7 @@ import {
   EMAILJS_PUBLIC_KEY,
 } from './config.js';
 import { initProjects } from './projects.js';
-
+import { renderAll } from './render.js';
 
 /* ── Firebase SDK (ESM) ────────────────────────────────────── */
 import { initializeApp }              from 'https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js';
@@ -15,6 +15,9 @@ import { getDatabase, ref, push, set } from 'https://www.gstatic.com/firebasejs/
 
 const app = initializeApp(FIREBASE_CONFIG);
 const db  = getDatabase(app);
+
+//populate all data-driven sections first
+renderAll();
 
 /* ── Theme ─────────────────────────────────────────────────── */
 initTheme();
