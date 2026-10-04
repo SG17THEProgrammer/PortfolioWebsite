@@ -5,6 +5,7 @@ import {
   EMAILJS_SERVICE_ID,
   EMAILJS_TEMPLATE_ID,
   EMAILJS_PUBLIC_KEY,
+  GITHUB_USERNAME
 } from './config.js';
 import { initProjects } from './projects.js';
 import { renderAll } from './render.js';
@@ -205,3 +206,8 @@ window.addEventListener('DOMContentLoaded', () => {
     emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
   }
 });
+
+// Populate GITHUB_USERNAME in index.html
+
+document.getElementById("github-link").href = `https://github.com/${GITHUB_USERNAME}`;
+

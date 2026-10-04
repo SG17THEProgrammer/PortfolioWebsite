@@ -24,7 +24,7 @@ export const socialLinks = [
     label: 'LinkedIn',
   },
   {
-    href: 'https://github.com/SG17THEProgrammer',
+    href: `https://github.com/${process.env.GITHUB_USERNAME}`,
     icon: 'fa-brands fa-github',
     label: 'GitHub',
   },
