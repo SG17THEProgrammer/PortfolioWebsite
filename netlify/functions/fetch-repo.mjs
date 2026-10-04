@@ -121,7 +121,7 @@ export default async (req) => {
   const readme = await fetchReadme(repoName);
 
   // 3. AI description + topics
-  let description = repoDesc || 'No description available.';
+  let description = repo.description || 'No description available.';
   let aiTopics = [];
 
   if (GROQ_API_KEY) {
