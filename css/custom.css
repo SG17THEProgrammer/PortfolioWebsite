@@ -2057,7 +2057,7 @@ a { text-decoration: none; color: inherit; }
 ════════════════════════════════════════════════════════════ */
 .projects-card {
   /* Let the card grow with content but stop at a comfortable max */
-  /* max-height: 920px; */
+  max-height: 920px;
   overflow-y: auto;
   scrollbar-width: thin;
 }
@@ -2068,7 +2068,52 @@ a { text-decoration: none; color: inherit; }
   .proj-cards-grid {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   }
+  .skills-projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .skills-icons-grid {
+    grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
+    gap: var(--space-2);
+  }
+
+  .skill-icon-wrapper img {
+    width: 36px;
+    height: 36px;
+  }
+
+  .projects-card {
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  .proj-card {
+    flex-direction: row;
+    gap: 12px;
+    padding: 14px;
+  }
+
+  .proj-card-icon-wrap {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+  }
+
+  .proj-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .proj-card-links {
+    margin-right: 0;
+  }
+
+  .proj-card-title {
+    font-size: 1rem;
+  }
 }
+
 @media (max-width: 420px) {
   .proj-cards-grid { grid-template-columns: 1fr; }
 }

@@ -273,7 +273,7 @@ function openEditModal(proj, onSave, isNew = false) {
     const query = nameInput.value.trim() || proj.name;
     unsplashResults.style.display = 'flex';
     unsplashResults.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Fetching...';
-    
+
     try {
       if (!UNSPLASH_ACCESS_KEY) throw new Error("API key missing.");
 
@@ -320,7 +320,7 @@ function openEditModal(proj, onSave, isNew = false) {
     const techRaw = overlay.querySelector('#pm-tech').value;
     const techArr = [];
     const seenSave = new Set();
-    
+
     techRaw.split(',').forEach(s => {
       const tag = s.trim();
       if (tag && !seenSave.has(tag.toLowerCase())) {
@@ -347,7 +347,10 @@ function openEditModal(proj, onSave, isNew = false) {
 /* ── Hero project count ────────────────────────────────────── */
 function setProjectCount(n) {
   const el = document.querySelector('.hero-stat-projects strong');
-  if (el) el.textContent =  n > 1 ? (n-1) + '+' : n ;
+  if (el) {
+    el.textContent = n > 1 ? (n - 1) + '+' : n;
+    el.style.textAlign = '';
+  }
 }
 
 /* ── Visitor view ──────────────────────────────────────────── */
@@ -457,7 +460,7 @@ async function renderAdminView(section, container) {
       selectedMap.set(updated.name, updated);
       markDirty();
       renderPreview();
-      await publishToBlob(); 
+      await publishToBlob();
     }, true);
   });
 
@@ -481,23 +484,35 @@ async function renderAdminView(section, container) {
     return;
   }
 
+  const REPOS_PER_PAGE = 12;
+  let currentRepoPage = 0;
+
   function renderRepoChips(filter = '') {
     repoGrid.innerHTML = '';
+    currentRepoPage = 0;
+
     const fl = filter.toLowerCase();
     const filtered = fl ? allRepos.filter(r => r.name.toLowerCase().includes(fl)) : allRepos;
 
-    filtered.forEach(r => {
-      const isOn = selectedMap.has(r.name);
-      const chip = document.createElement('div');
-      chip.className = `admin-chip ${isOn ? 'admin-chip--on' : ''}`;
-      chip.dataset.repo = r.name;
+    function renderPage() {
+      const start = 0;
+      const end = (currentRepoPage + 1) * REPOS_PER_PAGE;
+      const visible = filtered.slice(start, end);
 
-      const iconUrl = getLangIcon(r.language);
-      const iconHtml = iconUrl
-        ? `<img src="${iconUrl}" class="admin-chip-icon" alt="" />`
-        : `<i class="fa-brands fa-github admin-chip-icon-fa"></i>`;
+      repoGrid.innerHTML = '';
 
-      chip.innerHTML = `
+      visible.forEach(r => {
+        const isOn = selectedMap.has(r.name);
+        const chip = document.createElement('div');
+        chip.className = `admin-chip ${isOn ? 'admin-chip--on' : ''}`;
+        chip.dataset.repo = r.name;
+
+        const iconUrl = getLangIcon(r.language);
+        const iconHtml = iconUrl
+          ? `<img src="${iconUrl}" class="admin-chip-icon" alt="" />`
+          : `<i class="fa-brands fa-github admin-chip-icon-fa"></i>`;
+
+        chip.innerHTML = `
         ${iconHtml}
         <div class="admin-chip-info">
           <span class="admin-chip-name">${r.name}</span>
@@ -507,9 +522,37 @@ async function renderAdminView(section, container) {
           ${isOn ? '<i class="fa-solid fa-circle-check"></i>' : '<i class="fa-solid fa-circle-plus"></i>'}
         </button>
       `;
-      chip.querySelector('.admin-chip-btn').addEventListener('click', () => toggleRepo(r));
-      repoGrid.appendChild(chip);
-    });
+        chip.querySelector('.admin-chip-btn').addEventListener('click', () => toggleRepo(r));
+        repoGrid.appendChild(chip);
+      });
+
+      // Show More button
+      const existing = panel.querySelector('.admin-show-more');
+      if (existing) existing.remove();
+
+      if (end < filtered.length) {
+        const showMoreBtn = document.createElement('button');
+        showMoreBtn.className = 'btn btn-outline admin-show-more';
+        showMoreBtn.style.cssText = 'grid-column: 1/-1; margin-top: 8px; font-size: 0.8rem; padding: 6px 16px;';
+        showMoreBtn.innerHTML = `<i class="fa-solid fa-chevron-down"></i> Show more (${filtered.length - end} remaining)`;
+        showMoreBtn.addEventListener('click', () => {
+          currentRepoPage++;
+          renderPage();
+        });
+        repoGrid.appendChild(showMoreBtn);
+      }
+
+      // Repo count label
+      const existingCount = panel.querySelector('.admin-repo-count');
+      if (existingCount) existingCount.remove();
+      const countEl = document.createElement('p');
+      countEl.className = 'admin-repo-count';
+      countEl.style.cssText = 'font-size: 0.7rem; color: var(--text-muted); margin-top: 4px; text-align: right;';
+      countEl.textContent = `Showing ${Math.min(end, filtered.length)} of ${filtered.length} repos`;
+      repoGrid.after(countEl);
+    }
+
+    renderPage();
   }
 
   async function toggleRepo(r) {
@@ -517,7 +560,7 @@ async function renderAdminView(section, container) {
       selectedMap.delete(r.name);
       markDirty();
       renderRepoChips(searchEl.value);
-      renderPreview(); 
+      renderPreview();
       await publishToBlob();
       return;
     }
@@ -532,7 +575,7 @@ async function renderAdminView(section, container) {
       alert('Could not fetch repo: ' + e.message);
     } finally {
       renderRepoChips(searchEl.value);
-      renderPreview(); 
+      renderPreview();
     }
   }
 
@@ -551,7 +594,7 @@ async function renderAdminView(section, container) {
 
     arr.forEach((p, index) => {
       const card = renderCard(p, index, { editable: true });
-      
+
       // Make entire card draggable
       card.draggable = true;
       card.style.cursor = 'grab';
@@ -563,7 +606,7 @@ async function renderAdminView(section, container) {
       });
 
       card.addEventListener('dragover', (e) => {
-        e.preventDefault(); 
+        e.preventDefault();
         card.style.borderTop = '4px solid var(--accent)';
       });
 
@@ -583,7 +626,7 @@ async function renderAdminView(section, container) {
 
           selectedMap.clear();
           entries.forEach(([k, v]) => selectedMap.set(k, v));
-          
+
           markDirty();
           renderPreview();
           await publishToBlob();
@@ -638,7 +681,10 @@ async function renderAdminView(section, container) {
   }
 
   saveBtn.addEventListener('click', publishToBlob);
-  searchEl.addEventListener('input', () => renderRepoChips(searchEl.value));
+  searchEl.addEventListener('input', () => {
+    currentRepoPage = 0;
+    renderRepoChips(searchEl.value)
+  });
 
   renderRepoChips();
   renderPreview();
@@ -651,7 +697,11 @@ export async function initProjects() {
   if (!section) return;
 
   /* FIX 3 — expand layout before rendering when admin */
-  if (isAdmin()) expandProjectsSectionForAdmin();
+  if (isAdmin()) {
+    expandProjectsSectionForAdmin();
+    section.style.maxHeight = 'none';
+    section.style.overflowY = 'visible';
+  }
 
   let container = section.querySelector('.projects-list');
   if (!container) {
