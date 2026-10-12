@@ -196,9 +196,13 @@ function renderAchievementSlides() {
 
     return `
       <div class="swiper-slide">
+        <div class="swiper-slide-img-wrap">
         <img src="${s.src}" alt="${s.alt}" loading="lazy" />
+        </div>
+        <div class="swiper-slide-info">
         <p class="swiper-slide-title">${title}</p>
         <p class="swiper-slide-desc">${s.desc ?? ''}</p>
+        </div>
       </div>
     `;
   }).join('');
