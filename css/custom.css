@@ -1125,7 +1125,7 @@ a { text-decoration: none; color: inherit; }
   border: 1px solid var(--border) !important;
   border-radius: 50% !important;
   box-shadow: var(--shadow-sm);
-  top: calc(50% - 22px) !important;  /* vertically centred on image area */
+  top: calc(50% - 32px) !important;  /* vertically centred on image area */
   transition: background var(--duration-fast), border-color var(--duration-fast);
 }
 
