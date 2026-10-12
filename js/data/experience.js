@@ -61,6 +61,13 @@ export const experiences = [
         desc: 'Fast channel analysis tool checking DRM status, HEVC support, geo-blocking, and variant counts — powered by automated scripts.',
       },
     ],
-    certificates: [],
+    certificates: [
+        {
+        img: 'assets/images/internship-certificate-samsung.jpg',
+        alt: 'Certificate of Internship',
+        label: 'Internship',
+        link: 'https://drive.google.com/file/d/1ZdAQQ_crlGApmcERYGET55ugISW715TQ/view?usp=sharing',
+      },
+    ],
   },
 ];

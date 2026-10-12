@@ -185,11 +185,23 @@ function renderExperience() {
 function renderAchievementSlides() {
   const wrapper = document.querySelector('.swiper-wrapper');
   if (!wrapper) return;
-  wrapper.innerHTML = achievementSlides.map(s => `
-    <div class="swiper-slide">
-      <img src="${s.src}" alt="${s.alt}" loading="lazy" />
-    </div>
-  `).join('');
+
+  wrapper.innerHTML = achievementSlides.map(s => {
+    // Formatting ordinal prefixes
+    const title = String(s.title ?? '').replace(
+      /^(\d+)(st|nd|rd|th)\b/i,
+      (_, number, suffix) =>
+        `<span class="ordinal-number">${number}</span><span class="ordinal-suffix">${suffix.toLowerCase()}</span>`
+    );
+
+    return `
+      <div class="swiper-slide">
+        <img src="${s.src}" alt="${s.alt}" loading="lazy" />
+        <p class="swiper-slide-title">${title}</p>
+        <p class="swiper-slide-desc">${s.desc ?? ''}</p>
+      </div>
+    `;
+  }).join('');
 }
 
 /* ── Boot all renderers ─────────────────────────────────── */

@@ -1033,6 +1033,7 @@ a { text-decoration: none; color: inherit; }
   overflow: hidden;
   border: 3px solid var(--accent);
   border-radius: var(--radius-md);
+  padding: 0px var(--space-2);
 }
 
 .swiper {
@@ -1050,13 +1051,14 @@ a { text-decoration: none; color: inherit; }
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  height: 260px;
+  height: auto;
   transition: all var(--duration-base) var(--ease);
+  margin-top: 10px;
 }
 
 .swiper-slide img {
-  width: 100%;
-  height: 100%;
+  width: 80%;
+  height: 80%;
   object-fit: contain;
   padding: var(--space-2);
 }
@@ -1064,6 +1066,83 @@ a { text-decoration: none; color: inherit; }
 .swiper-pagination-bullet {
   background: var(--accent) !important;
 }
+
+/* ── Swiper slide info overlay ────────────────────────────── */
+.swiper-slide {
+  flex-direction: column;
+  position: relative;
+}
+
+.swiper-slide-info {
+  padding: 8px 12px 10px;
+  background: var(--surface-card);
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+.swiper-slide-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.swiper-slide-title .ordinal-number {
+  font-family: inherit !important;
+  font-size: var(--fs-xs) !important;
+  font-weight: 700 !important;
+  line-height: inherit;
+  vertical-align: baseline;
+}
+
+/* ordinal suffix smaller and lowercase */
+.swiper-slide-title .ordinal-suffix {
+  display: inline;
+  font-family: inherit;
+  font-size: 0.65em !important;
+  font-weight: 700;
+  text-transform: lowercase !important;
+  vertical-align: super;
+  letter-spacing: normal;
+}
+
+.swiper-slide-desc {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* ── Swiper nav buttons — subtle style ────────────────────── */
+.swiper-nav-btn {
+  width: 32px !important;
+  height: 32px !important;
+  background: var(--surface-card);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  box-shadow: var(--shadow-sm);
+  transition: background var(--duration-fast), border-color var(--duration-fast);
+  top: calc(50% - 30px) !important;
+  transform: translateY(30px); 
+}
+
+.swiper-nav-btn::after {
+  font-size: 11px !important;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.swiper-nav-btn:hover {
+  background: var(--accent-subtle);
+  border-color: var(--accent);
+}
+
+.swiper-button-prev.swiper-nav-btn { left: 6px !important; }
+.swiper-button-next.swiper-nav-btn { right: 6px !important; }
+
 
 /* ── Hire Me Banner ──────────────────────────────────────── */
 .hire-banner {
@@ -1632,10 +1711,9 @@ a { text-decoration: none; color: inherit; }
 
 .proj-card-links {
   display: flex;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   gap: 10px;
   flex-direction: row;
-  margin-right: 10px; /* Prevents links from colliding with admin buttons */
 }
 
 .proj-link {
